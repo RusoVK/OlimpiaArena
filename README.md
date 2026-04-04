@@ -2,6 +2,17 @@
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
+## MVC Architecture (implemented)
+
+The `src` folder is now organized with an MVC approach:
+
+- `src/models/`: app data structures and data providers (`appModel.ts`)
+- `src/controllers/`: state and interaction logic (`useAppController.ts`)
+- `src/views/`: presentational components (`AppView.tsx`)
+- `src/App.tsx`: composition entry point that wires controller + view
+
+This structure helps you scale features by keeping data, UI, and behavior separated.
+
 Currently, two official plugins are available:
 
 - [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
