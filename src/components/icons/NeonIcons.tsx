@@ -151,10 +151,6 @@ export const RankingIcon: React.FC<IconProps> = ({
       {/* Líneas de perspectiva */}
       <path d="M10 8 L9 6" strokeWidth="1" />
       <path d="M14 8 L15 6" strokeWidth="1" />
-      {/* Números */}
-      <text x="12" y="13" fontSize="6" textAnchor="middle" fill={active ? color : COLORS.text.secondary}>
-        1
-      </text>
     </svg>
   );
 };
