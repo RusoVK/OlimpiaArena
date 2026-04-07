@@ -1,0 +1,12 @@
+# Dependencias
+node_modules/
+
+# Credenciales de Firebase (¡CRÍTICO!)
+serviceAccountKey.json
+
+# Variables de entorno
+.env
+
+# Logs y temporales
+npm-debug.log*
+.DS_Store
