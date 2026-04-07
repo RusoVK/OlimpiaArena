@@ -1,6 +1,61 @@
+import { Suspense, lazy, useState } from 'react'
 import type { AppViewModel } from '../controllers/useAppController'
+import { useRubikController } from '../controllers/useRubikController'
+
+const RubikView = lazy(() => import('./RubikView.tsx'))
 
 export function AppView({ count, onIncrement, content }: AppViewModel) {
+  const [currentView, setCurrentView] = useState<'home' | 'rubik'>('home')
+  const rubikController = useRubikController()
+
+  if (currentView === 'rubik') {
+    return (
+      <div style={{ width: '100%', height: '100vh', display: 'flex', flexDirection: 'column' }}>
+        <nav
+          style={{
+            padding: '12px 24px',
+            backgroundColor: '#222',
+            display: 'flex',
+            gap: '12px',
+            borderBottom: '1px solid #444',
+          }}
+        >
+          <button
+            onClick={() => setCurrentView('home')}
+            style={{
+              padding: '8px 16px',
+              backgroundColor: 'transparent',
+              color: '#fff',
+              border: '1px solid #666',
+              borderRadius: '4px',
+              cursor: 'pointer',
+              fontSize: '14px',
+            }}
+          >
+            ← Back
+          </button>
+        </nav>
+        <Suspense
+          fallback={
+            <div
+              style={{
+                flex: 1,
+                display: 'grid',
+                placeItems: 'center',
+                background: '#111318',
+                color: '#e9efff',
+              }}
+            >
+              Cargando cubo...
+            </div>
+          }
+        >
+          <RubikView {...rubikController} />
+        </Suspense>
+      </div>
+    )
+  }
+
   return (
     <>
       <section id="center">
@@ -15,6 +70,21 @@ export function AppView({ count, onIncrement, content }: AppViewModel) {
         </div>
         <button className="counter" onClick={onIncrement}>
           Count is {count}
+        </button>
+        <button
+          onClick={() => setCurrentView('rubik')}
+          style={{
+            marginTop: '16px',
+            padding: '8px 16px',
+            backgroundColor: '#aa3bff',
+            color: 'white',
+            border: 'none',
+            borderRadius: '4px',
+            cursor: 'pointer',
+            fontSize: '14px',
+          }}
+        >
+          View Rubik Cube →
         </button>
       </section>
 
