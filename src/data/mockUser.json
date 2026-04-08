@@ -1,0 +1,31 @@
+{
+  "user": {
+    "id": "user_001",
+    "username": "RusoVK",
+    "tokaCoins": 150000,
+    "level": 12,
+    "totalSpent": 8500,
+    "totalEarned": 23500,
+    "inventory": [
+      {
+        "itemId": "skin_neon_cyan",
+        "name": "Cubo Cian Neón",
+        "quantity": 1,
+        "acquiredAt": "2026-04-05T10:30:00Z"
+      },
+      {
+        "itemId": "powerup_double_coins",
+        "name": "Monedas Duplicadas",
+        "quantity": 3,
+        "acquiredAt": "2026-04-03T14:20:00Z"
+      },
+      {
+        "itemId": "exp_xp_booster",
+        "name": "Booster de XP 24H",
+        "quantity": 2,
+        "acquiredAt": "2026-04-01T09:15:00Z"
+      }
+    ],
+    "lastUpdated": "2026-04-07T12:00:00Z"
+  }
+}

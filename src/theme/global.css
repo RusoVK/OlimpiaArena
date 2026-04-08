@@ -11,29 +11,29 @@
 /* ============ DEFINICIÓN DE VARIABLES CSS ============ */
 :root {
   /* Colores de Fondo */
-  --color-bg-abyss: #0f172a;
-  --color-bg-night: #1e293b;
-  --color-bg-deep: #1a202c;
+  --color-bg-abyss: #101316;
+  --color-bg-night: #171b21;
+  --color-bg-deep: #1d232b;
 
   /* Colores Neón */
-  --color-neon-cyan: #00ffff;
-  --color-neon-teal: #00daca;
+  --color-neon-cyan: #38e8ff;
+  --color-neon-teal: #2cf3c8;
 
   /* Colores del Cubo */
-  --color-cube-yellow: #fbbf24;
-  --color-cube-red: #ef4444;
-  --color-cube-orange: #f97316;
-  --color-cube-green: #10b981;
-  --color-cube-white: #f8faf8;
+  --color-cube-yellow: #f6c453;
+  --color-cube-red: #f05454;
+  --color-cube-orange: #ff8a3d;
+  --color-cube-green: #43d18e;
+  --color-cube-white: #f4f6f8;
 
   /* Colores de Gamificación */
-  --color-gold: #ffd700;
-  --color-alert-orange: #ff8c00;
+  --color-gold: #f2c14e;
+  --color-alert-orange: #ff9a3c;
 
   /* Colores de Texto */
-  --color-text-primary: #f8faf8;
-  --color-text-secondary: #b4b4ba;
-  --color-text-tertiary: #717177;
+  --color-text-primary: #f4f6f8;
+  --color-text-secondary: #b0b7c2;
+  --color-text-tertiary: #6e7784;
 
   /* Espacios */
   --spacing-xs: 4px;
@@ -156,11 +156,11 @@ button:disabled {
   border-radius: var(--border-radius-md);
   font-size: 14px;
   font-weight: 600;
-  box-shadow: 0 0 8px rgba(0, 255, 255, 0.3);
+  box-shadow: 0 0 8px rgba(56, 232, 255, 0.3);
 }
 
 .btn-primary:hover:not(:disabled) {
-  box-shadow: 0 0 16px rgba(0, 255, 255, 0.6);
+  box-shadow: 0 0 16px rgba(56, 232, 255, 0.6);
   transform: translateY(-2px);
 }
 
@@ -168,7 +168,7 @@ button:disabled {
 .btn-secondary {
   background-color: transparent;
   color: var(--color-neon-cyan);
-  border: 1px solid rgba(0, 255, 255, 0.8);
+  border: 1px solid rgba(56, 232, 255, 0.8);
   padding: var(--spacing-sm) var(--spacing-lg);
   border-radius: var(--border-radius-md);
   font-size: 14px;
@@ -176,8 +176,8 @@ button:disabled {
 }
 
 .btn-secondary:hover:not(:disabled) {
-  box-shadow: 0 0 12px rgba(0, 255, 255, 0.4);
-  background-color: rgba(0, 255, 255, 0.05);
+  box-shadow: 0 0 12px rgba(56, 232, 255, 0.4);
+  background-color: rgba(56, 232, 255, 0.05);
 }
 
 /* ============ INPUTS Y FORMULARIOS ============ */
@@ -186,7 +186,7 @@ textarea,
 select {
   background-color: var(--color-bg-deep);
   color: var(--color-text-primary);
-  border: 1px solid rgba(0, 218, 202, 0.8);
+  border: 1px solid rgba(44, 243, 200, 0.8);
   border-radius: var(--border-radius-md);
   padding: var(--spacing-sm) var(--spacing-md);
   font-family: inherit;
@@ -199,8 +199,8 @@ textarea:focus,
 select:focus {
   outline: none;
   border-color: var(--color-neon-cyan);
-  box-shadow: 0 0 8px rgba(0, 255, 255, 0.3), inset 0 0 8px rgba(0, 255, 255, 0.1);
-  background-color: rgba(0, 255, 255, 0.02);
+  box-shadow: 0 0 8px rgba(56, 232, 255, 0.3), inset 0 0 8px rgba(56, 232, 255, 0.12);
+  background-color: rgba(56, 232, 255, 0.02);
 }
 
 input::placeholder {
@@ -218,18 +218,18 @@ input::placeholder {
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: rgba(0, 255, 255, 0.3);
+  background-color: rgba(56, 232, 255, 0.3);
   border-radius: 4px;
   border: 2px solid var(--color-bg-night);
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background-color: rgba(0, 255, 255, 0.6);
+  background-color: rgba(56, 232, 255, 0.6);
 }
 
 /* Firefox */
 * {
-  scrollbar-color: rgba(0, 255, 255, 0.3) var(--color-bg-night);
+  scrollbar-color: rgba(56, 232, 255, 0.3) var(--color-bg-night);
   scrollbar-width: thin;
 }
 
@@ -248,23 +248,23 @@ input::placeholder {
 /* Destello neón */
 @keyframes neonFlash {
   0%, 100% {
-    box-shadow: 0 0 8px rgba(0, 255, 255, 0.3), inset 0 0 8px rgba(0, 255, 255, 0.1);
+    box-shadow: 0 0 8px rgba(56, 232, 255, 0.3), inset 0 0 8px rgba(56, 232, 255, 0.12);
   }
   50% {
-    box-shadow: 0 0 32px rgba(0, 255, 255, 0.9), inset 0 0 32px rgba(0, 255, 255, 0.4);
+    box-shadow: 0 0 32px rgba(56, 232, 255, 0.9), inset 0 0 32px rgba(56, 232, 255, 0.4);
   }
 }
 
 /* Cambio de glow */
 @keyframes glowShift {
   0% {
-    box-shadow: 0 0 16px rgba(0, 255, 255, 0.5);
+    box-shadow: 0 0 16px rgba(56, 232, 255, 0.5);
   }
   50% {
-    box-shadow: 0 0 16px rgba(0, 218, 202, 0.5);
+    box-shadow: 0 0 16px rgba(44, 243, 200, 0.5);
   }
   100% {
-    box-shadow: 0 0 16px rgba(0, 255, 255, 0.5);
+    box-shadow: 0 0 16px rgba(56, 232, 255, 0.5);
   }
 }
 
@@ -402,7 +402,7 @@ input::placeholder {
 
 .text-neon-cyan {
   color: var(--color-neon-cyan);
-  text-shadow: 0 0 8px rgba(0, 255, 255, 0.5);
+  text-shadow: 0 0 8px rgba(56, 232, 255, 0.5);
 }
 
 .text-gold {
@@ -425,20 +425,25 @@ input::placeholder {
 
 /* Bordes neón */
 .border-cyan {
-  border: 1px solid rgba(0, 255, 255, 0.8);
+  border: 1px solid rgba(56, 232, 255, 0.8);
 }
 
 .border-cyan-thick {
-  border: 2px solid rgba(0, 255, 255, 1);
-  box-shadow: 0 0 8px rgba(0, 255, 255, 0.3), inset 0 0 8px rgba(0, 255, 255, 0.1);
+  border: 2px solid rgba(56, 232, 255, 1);
+  box-shadow: 0 0 8px rgba(56, 232, 255, 0.3), inset 0 0 8px rgba(56, 232, 255, 0.12);
 }
 
 .border-teal {
-  border: 1px solid rgba(0, 218, 202, 0.8);
+  border: 1px solid rgba(44, 243, 200, 0.8);
 }
 
 /* Responsivo */
 @media (max-width: 640px) {
+  :root {
+    --spacing-lg: 16px;
+    --spacing-md: 12px;
+  }
+
   html,
   body {
     font-size: 14px;
@@ -455,7 +460,4 @@ input::placeholder {
   h3 {
     font-size: 18px;
   }
-
-  --spacing-lg: 16px;
-  --spacing-md: 12px;
 }

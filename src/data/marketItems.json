@@ -1,0 +1,81 @@
+{
+  "marketItems": [
+    {
+      "id": "cosmetic_avatar_border_cyan",
+      "name": "Marco Neural Cian",
+      "description": "Borde de avatar con diseño neuronal cian",
+      "price": 300,
+      "category": "cosmetic",
+      "categoryLabel": "COSMÉTICOS DE PERFIL",
+      "icon": "🧠",
+      "rarity": "rare",
+      "active": true
+    },
+    {
+      "id": "cosmetic_streak_effect",
+      "name": "Rastro Neón Racha",
+      "description": "Efecto visual para tu racha diaria",
+      "price": 200,
+      "category": "cosmetic",
+      "categoryLabel": "COSMÉTICOS DE PERFIL",
+      "icon": "🔥",
+      "rarity": "rare",
+      "active": true
+    },
+    {
+      "id": "cosmetic_maestro_badge",
+      "name": "Insignia Maestro",
+      "description": "Badge de maestría en tu perfil",
+      "price": 150,
+      "category": "cosmetic",
+      "categoryLabel": "COSMÉTICOS DE PERFIL",
+      "icon": "🏅",
+      "rarity": "common",
+      "active": true
+    },
+    {
+      "id": "powerup_reflex_pause",
+      "name": "Pausa Reflex (+5s)",
+      "description": "Pausa de cronómetro adicional en Reflex Zone",
+      "price": 100,
+      "category": "power-up",
+      "categoryLabel": "POTENCIADORES DE ARENA",
+      "icon": "⏸️",
+      "rarity": "common",
+      "active": true
+    },
+    {
+      "id": "powerup_logic_maze_hint",
+      "name": "Pista Logic Maze",
+      "description": "Una pista adicional en Laberinto Lógico",
+      "price": 75,
+      "category": "power-up",
+      "categoryLabel": "POTENCIADORES DE ARENA",
+      "icon": "🧩",
+      "rarity": "common",
+      "active": true
+    },
+    {
+      "id": "physical_olimpia_tshirt",
+      "name": "Camiseta OlimpiaArena",
+      "description": "Camiseta oficial con escudo de Olimpia Arena",
+      "price": 1000,
+      "category": "physical",
+      "categoryLabel": "RECOMPENSAS FÍSICAS",
+      "icon": "👕",
+      "rarity": "epic",
+      "active": true
+    },
+    {
+      "id": "physical_merch_discount",
+      "name": "Descuento 10% Toka Merch",
+      "description": "Descuento exclusivo en tienda de merchandise",
+      "price": 500,
+      "category": "physical",
+      "categoryLabel": "RECOMPENSAS FÍSICAS",
+      "icon": "🎁",
+      "rarity": "rare",
+      "active": true
+    }
+  ]
+}

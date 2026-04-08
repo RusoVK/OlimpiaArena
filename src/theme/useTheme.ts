@@ -28,10 +28,11 @@ export function getTypographyStyle(style: string): React.CSSProperties {
   const [group, subStyle] = style.split('.');
 
   if (subStyle) {
-    return TYPOGRAPHY[group as keyof typeof TYPOGRAPHY]?.[subStyle] || {};
+    const typographyGroup = TYPOGRAPHY[group as keyof typeof TYPOGRAPHY] as any;
+    return typographyGroup?.[subStyle] || {};
   }
 
-  return TYPOGRAPHY[group as keyof typeof TYPOGRAPHY] || {};
+  return (TYPOGRAPHY[group as keyof typeof TYPOGRAPHY] as any) || {};
 }
 
 /**

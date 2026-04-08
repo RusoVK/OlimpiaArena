@@ -1,0 +1,40 @@
+{
+  "events": [
+    {
+      "id": "arena_001",
+      "title": "Desafio Relampago",
+      "mode": "Speed Run",
+      "rewardCoins": 220,
+      "entryCost": 10,
+      "startsAt": "2026-04-08T17:30:00Z",
+      "status": "open",
+      "difficulty": "easy",
+      "participants": 42,
+      "maxParticipants": 120
+    },
+    {
+      "id": "arena_002",
+      "title": "Laberinto Logico",
+      "mode": "Logic Maze",
+      "rewardCoins": 380,
+      "entryCost": 20,
+      "startsAt": "2026-04-08T19:00:00Z",
+      "status": "upcoming",
+      "difficulty": "medium",
+      "participants": 18,
+      "maxParticipants": 80
+    },
+    {
+      "id": "arena_003",
+      "title": "Duelo Neon",
+      "mode": "1v1 Duel",
+      "rewardCoins": 520,
+      "entryCost": 35,
+      "startsAt": "2026-04-09T02:00:00Z",
+      "status": "upcoming",
+      "difficulty": "hard",
+      "participants": 12,
+      "maxParticipants": 32
+    }
+  ]
+}

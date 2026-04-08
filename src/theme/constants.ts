@@ -35,28 +35,28 @@ export const DESIGN_CONSTANTS = {
   // ============ BORDES NEÓN (Neon-Neuron Style) ============
   neoBorders: {
     // Bordes con glow suave
-    cyanThin: '1px solid rgba(0, 255, 255, 0.8)',
-    cyanMedium: '2px solid rgba(0, 255, 255, 1)',
-    tealThin: '1px solid rgba(0, 218, 202, 0.8)',
-    tealMedium: '2px solid rgba(0, 218, 202, 1)',
+    cyanThin: '1px solid rgba(56, 232, 255, 0.8)',
+    cyanMedium: '2px solid rgba(56, 232, 255, 1)',
+    tealThin: '1px solid rgba(44, 243, 200, 0.8)',
+    tealMedium: '2px solid rgba(44, 243, 200, 1)',
 
     // Bordes facetados (simula bordes de diamante/cubo)
     faceted:
-      'border-image: linear-gradient(135deg, #00FFFF 0%, #00DACA 100%) 1',
+      'border-image: linear-gradient(135deg, #38E8FF 0%, #2CF3C8 100%) 1',
   },
 
   // ============ SOMBRAS NEÓN (Box-shadow con glow) ============
   shadows: {
     // Glows sutiles
-    glowCyanSmall: '0 0 8px rgba(0, 255, 255, 0.3), inset 0 0 8px rgba(0, 255, 255, 0.1)',
-    glowCyanMedium: '0 0 16px rgba(0, 255, 255, 0.5), inset 0 0 16px rgba(0, 255, 255, 0.15)',
-    glowCyanLarge: '0 0 32px rgba(0, 255, 255, 0.7), inset 0 0 32px rgba(0, 255, 255, 0.2)',
+    glowCyanSmall: '0 0 8px rgba(56, 232, 255, 0.3), inset 0 0 8px rgba(56, 232, 255, 0.12)',
+    glowCyanMedium: '0 0 16px rgba(56, 232, 255, 0.5), inset 0 0 16px rgba(56, 232, 255, 0.18)',
+    glowCyanLarge: '0 0 32px rgba(56, 232, 255, 0.7), inset 0 0 32px rgba(56, 232, 255, 0.24)',
 
-    glowTealSmall: '0 0 8px rgba(0, 218, 202, 0.3), inset 0 0 8px rgba(0, 218, 202, 0.1)',
-    glowTealMedium: '0 0 16px rgba(0, 218, 202, 0.5), inset 0 0 16px rgba(0, 218, 202, 0.15)',
+    glowTealSmall: '0 0 8px rgba(44, 243, 200, 0.3), inset 0 0 8px rgba(44, 243, 200, 0.12)',
+    glowTealMedium: '0 0 16px rgba(44, 243, 200, 0.5), inset 0 0 16px rgba(44, 243, 200, 0.18)',
 
-    glowGoldSmall: '0 0 8px rgba(255, 215, 0, 0.3), inset 0 0 8px rgba(255, 215, 0, 0.1)',
-    glowGoldMedium: '0 0 16px rgba(255, 215, 0, 0.5), inset 0 0 16px rgba(255, 215, 0, 0.15)',
+    glowGoldSmall: '0 0 8px rgba(242, 193, 78, 0.3), inset 0 0 8px rgba(242, 193, 78, 0.12)',
+    glowGoldMedium: '0 0 16px rgba(242, 193, 78, 0.5), inset 0 0 16px rgba(242, 193, 78, 0.18)',
 
     // Sombras de elevación para componentes
     elevationSmall: '0 4px 12px rgba(0, 0, 0, 0.4)',
@@ -64,7 +64,7 @@ export const DESIGN_CONSTANTS = {
     elevationLarge: '0 12px 32px rgba(0, 0, 0, 0.6)',
 
     // Sombra interior para paneles (efecto de profundidad)
-    innerDepth: 'inset 0 1px 3px rgba(0, 255, 255, 0.05)',
+    innerDepth: 'inset 0 1px 3px rgba(56, 232, 255, 0.05)',
   },
 
   // ============ TRANSICIONES ============
@@ -94,12 +94,12 @@ export const DESIGN_CONSTANTS = {
     neonFlash: `
       @keyframes neonFlash {
         0%, 100% { 
-          box-shadow: 0 0 8px rgba(0, 255, 255, 0.3), 
-                      inset 0 0 8px rgba(0, 255, 255, 0.1);
+          box-shadow: 0 0 8px rgba(56, 232, 255, 0.3), 
+                      inset 0 0 8px rgba(56, 232, 255, 0.12);
         }
         50% { 
-          box-shadow: 0 0 32px rgba(0, 255, 255, 0.9), 
-                      inset 0 0 32px rgba(0, 255, 255, 0.4);
+          box-shadow: 0 0 32px rgba(56, 232, 255, 0.9), 
+                      inset 0 0 32px rgba(56, 232, 255, 0.4);
         }
       }
     `,
@@ -108,13 +108,13 @@ export const DESIGN_CONSTANTS = {
     glowShift: `
       @keyframes glowShift {
         0% { 
-          box-shadow: 0 0 16px rgba(0, 255, 255, 0.5);
+          box-shadow: 0 0 16px rgba(56, 232, 255, 0.5);
         }
         50% { 
-          box-shadow: 0 0 16px rgba(0, 218, 202, 0.5);
+          box-shadow: 0 0 16px rgba(44, 243, 200, 0.5);
         }
         100% { 
-          box-shadow: 0 0 16px rgba(0, 255, 255, 0.5);
+          box-shadow: 0 0 16px rgba(56, 232, 255, 0.5);
         }
       }
     `,
