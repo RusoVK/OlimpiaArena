@@ -1,0 +1,38 @@
+{
+  "profile": {
+    "id": "user_001",
+    "username": "RusoVK",
+    "displayName": "Ruso VK",
+    "avatarUrl": "https://i.pravatar.cc/160?img=12",
+    "level": 12,
+    "exp": 3480,
+    "tokaCoins": 150000,
+    "stats": {
+      "wins": 48,
+      "losses": 12,
+      "bestTimeSeconds": 42,
+      "currentStreak": 6
+    },
+    "achievements": [
+      {
+        "id": "achv_speed",
+        "title": "Rayo de Neones",
+        "description": "Completa 5 desafios bajo 45s",
+        "unlockedAt": "2026-04-06T10:30:00Z"
+      },
+      {
+        "id": "achv_streak",
+        "title": "Racha Perfecta",
+        "description": "Gana 5 partidas seguidas",
+        "unlockedAt": "2026-04-04T19:00:00Z"
+      },
+      {
+        "id": "achv_market",
+        "title": "Mercader Supremo",
+        "description": "Canjea 3 recompensas",
+        "unlockedAt": "2026-04-02T09:00:00Z"
+      }
+    ],
+    "lastActiveAt": "2026-04-08T12:00:00Z"
+  }
+}

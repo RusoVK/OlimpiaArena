@@ -1,0 +1,54 @@
+{
+  "season": {
+    "id": "season_2026_04",
+    "name": "Temporada Abril 2026",
+    "endsAt": "2026-04-30T23:59:59Z"
+  },
+  "entries": [
+    {
+      "userId": "user_010",
+      "username": "NeonBlade",
+      "avatarUrl": "https://i.pravatar.cc/100?img=1",
+      "score": 12840,
+      "rank": 1,
+      "streak": 12,
+      "country": "MX"
+    },
+    {
+      "userId": "user_014",
+      "username": "KarmaCube",
+      "avatarUrl": "https://i.pravatar.cc/100?img=6",
+      "score": 12210,
+      "rank": 2,
+      "streak": 9,
+      "country": "MX"
+    },
+    {
+      "userId": "user_031",
+      "username": "FluxNova",
+      "avatarUrl": "https://i.pravatar.cc/100?img=9",
+      "score": 11840,
+      "rank": 3,
+      "streak": 8,
+      "country": "MX"
+    },
+    {
+      "userId": "user_001",
+      "username": "RusoVK",
+      "avatarUrl": "https://i.pravatar.cc/100?img=12",
+      "score": 11220,
+      "rank": 4,
+      "streak": 6,
+      "country": "MX"
+    },
+    {
+      "userId": "user_045",
+      "username": "Zenith",
+      "avatarUrl": "https://i.pravatar.cc/100?img=18",
+      "score": 10890,
+      "rank": 5,
+      "streak": 4,
+      "country": "MX"
+    }
+  ]
+}
