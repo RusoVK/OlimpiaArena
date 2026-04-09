@@ -9,6 +9,7 @@ import type { UserProfile } from '@/models/profile/types';
 import { getUserProfile } from '@/services/profileService';
 import { authenticateUser } from '@/services/tokaApi';
 import { loadAlipayBridge, requestAuthCode } from '@/services/alipayBridge';
+import { logger } from '@/services/loggerService';
 
 export const ProfileView: React.FC = () => {
   const [profile, setProfile] = useState<UserProfile | null>(null);
@@ -102,31 +103,102 @@ export const ProfileView: React.FC = () => {
     boxShadow: DESIGN_CONSTANTS.shadows.glowCyanSmall,
   };
 
+  const errorBoxStyles: React.CSSProperties = {
+    padding: DESIGN_CONSTANTS.spacing.lg,
+    borderRadius: DESIGN_CONSTANTS.borderRadius.lg,
+    backgroundColor: `${COLORS.gamification.alertOrange}15`,
+    border: `2px solid ${COLORS.gamification.alertOrange}`,
+    marginBottom: DESIGN_CONSTANTS.spacing.lg,
+  };
+
+  const errorTitleStyles: React.CSSProperties = {
+    ...TYPOGRAPHY.heading.h4,
+    color: COLORS.gamification.alertOrange,
+    margin: 0,
+    marginBottom: DESIGN_CONSTANTS.spacing.sm,
+  };
+
+  const errorTextStyles: React.CSSProperties = {
+    ...TYPOGRAPHY.body.md,
+    color: COLORS.gamification.alertOrange,
+    margin: 0,
+    lineHeight: '1.5',
+  };
+
   const handleConnect = async () => {
     setAuthError(null);
     setAuthLoading(true);
     try {
+      logger.info('========== INICIANDO CONEXIÓN ALIPAY ==========');
+      
       await loadAlipayBridge();
+      logger.success('✓ Bridge de Alipay cargado');
+      
+      logger.info('Llamando requestAuthCode...');
       const result = await requestAuthCode(
-        'DigitalIdentity',
-        ['USER_ID', 'USER_AVATAR', 'USER_NICKNAME'],
-        'Usaremos esta informacion para tu perfil dentro de Olimpia Arena.'
+        'User_Digital_Identity_Information',
+        [],
+        'Autenticación en OlimpiaArena'
       );
 
-      if (!result.success || !result.authCode) {
-        setAuthError(result.error || 'No se pudo obtener authCode');
+      if (!result.success) {
+        const errorMsg = `${result.error || 'Error desconocido'}`;
+        logger.error('[requestAuthCode] Error', errorMsg);
+        setAuthError(errorMsg);
         return;
       }
 
-      setAuthCode(result.authCode);
-      const tokenResponse = await authenticateUser(result.authCode);
-      if (tokenResponse.success) {
-        setAuthToken(tokenResponse.data.accessToken);
-      } else {
-        setAuthError(tokenResponse.message || 'No se pudo autenticar');
+      if (!result.authCode) {
+        const errorMsg = 'AuthCode es null/vacío';
+        logger.error('[requestAuthCode] Error', errorMsg);
+        setAuthError(errorMsg);
+        return;
       }
+
+      logger.success('✓ AuthCode obtenido', result.authCode.substring(0, 20) + '...');
+      setAuthCode(result.authCode);
+      
+      logger.info('Intercambiando authCode por token en Toka API...');
+      const tokenResponse = await authenticateUser(result.authCode);
+      
+      if (!tokenResponse.success) {
+        const errorMsg = tokenResponse.message || 'Error en autenticación';
+        logger.error('[authenticateUser] Error', errorMsg);
+        setAuthError(errorMsg);
+        return;
+      }
+
+      if (!tokenResponse.data) {
+        const errorMsg = 'No devolvió datos de usuario';
+        logger.error('[authenticateUser] Error', errorMsg);
+        setAuthError(errorMsg);
+        return;
+      }
+
+      const { userId, accessToken, expiresIn } = tokenResponse.data;
+      logger.success('✓ Token obtenido', `userId: ${userId}`);
+      
+      setAuthToken(accessToken);
+      
+      // ✅ Guardar sesión en localStorage
+      const session = {
+        userId,
+        accessToken,
+        expiresAt: Date.now() + (expiresIn || 1800) * 1000,
+      };
+      localStorage.setItem('alipay_session', JSON.stringify(session));
+      logger.success('✓ Sesión guardada', 'Datos almacenados localmente');
+      
+      // ✅ Recargar el perfil con el nuevo token
+      const updatedProfile = await getUserProfile();
+      setProfile(updatedProfile);
+      logger.success('✓ Perfil recargado');
+      logger.success('========== CONEXIÓN EXITOSA ==========');
+      
     } catch (error) {
-      setAuthError(String(error));
+      const errorMsg = error instanceof Error ? error.message : String(error);
+      logger.error('[Exception]', errorMsg);
+      setAuthError(errorMsg);
     } finally {
       setAuthLoading(false);
     }
@@ -140,6 +212,16 @@ export const ProfileView: React.FC = () => {
         <div style={{ ...TYPOGRAPHY.body.md, color: COLORS.text.secondary }}>Cargando perfil...</div>
       ) : profile ? (
         <div style={{ display: 'flex', flexDirection: 'column', gap: DESIGN_CONSTANTS.spacing.lg }}>
+          {/* 🚨 Mostrar error prominentemente si existe */}
+          {authError && (
+            <div style={errorBoxStyles}>
+              <h4 style={errorTitleStyles}>⚠️ Error de Conexión</h4>
+              <p style={errorTextStyles}>{authError}</p>
+              <button style={buttonStyles} onClick={() => setAuthError(null)}>
+                Cerrar
+              </button>
+            </div>
+          )}
           <div style={cardStyles}>
             <div style={rowStyles}>
               <img src={profile.avatarUrl} alt={profile.displayName} style={avatarStyles} />
@@ -213,17 +295,12 @@ export const ProfileView: React.FC = () => {
             </button>
             {authCode && (
               <div style={{ marginTop: DESIGN_CONSTANTS.spacing.sm, color: COLORS.neon.cyan }}>
-                AuthCode: {authCode}
+                ✓ AuthCode: {authCode}
               </div>
             )}
             {authToken && (
-              <div style={{ marginTop: DESIGN_CONSTANTS.spacing.xs, color: COLORS.text.secondary }}>
-                Token: {authToken.slice(0, 8)}...
-              </div>
-            )}
-            {authError && (
-              <div style={{ marginTop: DESIGN_CONSTANTS.spacing.xs, color: COLORS.gamification.alertOrange }}>
-                {authError}
+              <div style={{ marginTop: DESIGN_CONSTANTS.spacing.xs, color: COLORS.neon.cyan }}>
+                ✓ Token: {authToken.slice(0, 8)}...
               </div>
             )}
           </div>

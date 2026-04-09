@@ -120,6 +120,48 @@ export const MarketIcon: React.FC<IconProps> = ({
 };
 
 /**
+ * Icono Arcade - Joystick y Botones
+ */
+export const ArcadeIcon: React.FC<IconProps> = ({ 
+  size = 24, 
+  color = COLORS.neon.cyan,
+  active = false 
+}) => {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke={active ? color : COLORS.text.secondary}
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      style={{
+        transition: 'all 150ms ease-in-out',
+        filter: active ? `drop-shadow(0 0 8px ${color})` : 'none',
+      }}
+    >
+      {/* Base tipo arcade */}
+      <rect x="2" y="4" width="20" height="14" rx="2" />
+      {/* Panel superior */}
+      <rect x="3" y="5" width="18" height="6" fill="transparent" />
+      {/* Joystick izquierdo */}
+      <circle cx="7" cy="10" r="2" />
+      <path d="M7 8 L7 12 M5 10 L9 10" strokeWidth="1" />
+      {/* Botones derechos */}
+      <circle cx="17" cy="8" r="1.5" />
+      <circle cx="19" cy="10" r="1.5" />
+      <circle cx="17" cy="12" r="1.5" />
+      {/* Panel inferior */}
+      <rect x="4" y="12" width="16" height="5" fill="transparent" />
+      {/* Línea decorativa */}
+      <path d="M4 12 L20 12" strokeWidth="1" opacity="0.6" />
+    </svg>
+  );
+};
+
+/**
  * Icono Ranking - Podio con Cubos
  */
 export const RankingIcon: React.FC<IconProps> = ({ 

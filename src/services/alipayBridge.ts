@@ -1,4 +1,5 @@
 import { APP_CONFIG } from './appConfig';
+import { logger } from './loggerService';
 
 export type AlipayAuthScope =
   | 'USER_ID'
@@ -14,14 +15,15 @@ export type AlipayAuthScope =
   | 'USER_BIRTHDAY'
   | 'USER_STATE_OF_BIRTH'
   | 'USER_NATIONALITY'
-  | 'USER_KYC_STATUS';
+  | 'USER_KYC_STATUS'
+  | 'auth_user';
 
 export type AlipayAuthType =
-  | 'DigitalIdentity'
-  | 'ContactInformation'
-  | 'AddressInformation'
-  | 'PersonalInformation'
-  | 'KYCStatus';
+  | 'User_Digital_Identity_Information'
+  | 'User_Contact_Information'
+  | 'User_Address_Information'
+  | 'User_Personal_Information'
+  | 'User_KYC_Status';
 
 export type AlipayAuthResult = {
   success: boolean;
@@ -47,30 +49,88 @@ export const isAlipayBridgeAvailable = (): boolean => {
 };
 
 export const loadAlipayBridge = async (): Promise<boolean> => {
-  if (getBridge()) {
+  logger.info('🔍 Verificando disponibilidad del bridge Alipay...');
+  
+  // Primero verificamos si el bridge ya está disponible (inyectado por la super app)
+  const bridge = getBridge();
+  if (bridge) {
+    logger.success('✅ Bridge detectado (inyectado por super app)');
     return true;
   }
 
+  logger.info('Bridge no detectado, intentando esperar a que se inyecte...');
+  
+  // Esperamos a que el bridge se inyecte (máximo 5 segundos)
+  return await new Promise<boolean>((resolve) => {
+    let attempts = 0;
+    const maxAttempts = 50; // 5 segundos (50 * 100ms)
+    
+    const checkBridge = () => {
+      attempts++;
+      const bridge = getBridge();
+      
+      if (bridge) {
+        logger.success('✅ Bridge inyectado correctamente por la super app');
+        resolve(true);
+        return;
+      }
+      
+      if (attempts >= maxAttempts) {
+        logger.warning('⏱️ Timeout esperando bridge. Intentando cargar desde CDN...');
+        loadBridgeFromCDN().then(success => {
+          resolve(success);
+        }).catch(err => {
+          logger.error('❌ No se pudo cargar el bridge', String(err));
+          resolve(false);
+        });
+        return;
+      }
+      
+      setTimeout(checkBridge, 100);
+    };
+    
+    checkBridge();
+  });
+};
+
+const loadBridgeFromCDN = async (): Promise<boolean> => {
   if (!APP_CONFIG.alipayBridgeUrl) {
+    logger.error('❌ URL del bridge no configurada');
     return false;
   }
 
-  await new Promise<void>((resolve, reject) => {
+  return new Promise<boolean>((resolve) => {
     const existing = document.querySelector(`script[src="${APP_CONFIG.alipayBridgeUrl}"]`);
     if (existing) {
-      resolve();
+      logger.info('Script del bridge ya cargado, esperando inicialización...');
+      setTimeout(() => {
+        resolve(!!getBridge());
+      }, 1000);
       return;
     }
 
+    logger.info('📥 Cargando bridge desde CDN...');
     const script = document.createElement('script');
     script.src = APP_CONFIG.alipayBridgeUrl;
     script.async = true;
-    script.onload = () => resolve();
-    script.onerror = () => reject(new Error('No se pudo cargar el bridge de Alipay'));
+    script.onload = () => {
+      logger.success('✅ Script del bridge cargado');
+      setTimeout(() => {
+        const found = getBridge();
+        if (found) {
+          logger.success('✅ Bridge inicializado desde CDN');
+        } else {
+          logger.warning('⚠️ Bridge cargado pero aún no disponible');
+        }
+        resolve(!!found);
+      }, 500);
+    };
+    script.onerror = () => {
+      logger.error('❌ Error cargando bridge desde CDN');
+      resolve(false);
+    };
     document.head.appendChild(script);
   });
-
-  return !!getBridge();
 };
 
 const callBridge = (method: string, params: Record<string, unknown>): Promise<unknown> => {
@@ -81,39 +141,115 @@ const callBridge = (method: string, params: Record<string, unknown>): Promise<un
       return;
     }
 
-    bridge.call(method, params, (res: unknown) => {
-      resolve(res);
-    });
+    // Timeout de seguridad (30 segundos)
+    const timeoutId = setTimeout(() => {
+      reject(new Error(`Timeout esperando respuesta de my.${method}() - 30s sin respuesta`));
+    }, 30000);
+
+    try {
+      const callParams = {
+        ...params,
+        success: (res: unknown) => {
+          clearTimeout(timeoutId);
+          console.log(`[callBridge] SUCCESS de ${method}:`, res);
+          resolve(res);
+        },
+        fail: (err: unknown) => {
+          clearTimeout(timeoutId);
+          console.error(`[callBridge] FAIL de ${method}:`, err);
+          reject(err);
+        },
+      };
+
+      console.log(`[callBridge] Llamando my.${method}() con params:`, callParams);
+      bridge.call(method, callParams);
+    } catch (err) {
+      clearTimeout(timeoutId);
+      reject(err);
+    }
   });
 };
 
 export const requestAuthCode = async (
-  type: AlipayAuthType,
-  scopes: AlipayAuthScope[],
-  usage: string
+  _type: AlipayAuthType,
+  _scopes: AlipayAuthScope[],
+  _usage?: string
 ): Promise<AlipayAuthResult> => {
   try {
-    if (!isAlipayBridgeAvailable()) {
-      return {
-        success: true,
-        authCode: 'MOCK6A',
-        mock: true,
-      };
+    const bridge = getBridge();
+    
+    if (!bridge) {
+      const errorMsg = 'Bridge de Alipay no disponible';
+      logger.error('❌ Bridge no encontrado', errorMsg);
+      return { success: false, error: errorMsg };
     }
 
-    const method = `getUser${type}AuthCode`;
-    const result: any = await callBridge(method, {
-      usage,
-      scopes,
-    });
-
-    if (result?.authCode) {
-      return { success: true, authCode: String(result.authCode), raw: result };
+    logger.info('🔵 Obteniendo authCode desde bridge.startupParams...');
+    
+    // Acceso directo a startupParams (propiedad, no función)
+    const startupParams = (bridge as any).startupParams;
+    
+    if (!startupParams) {
+      const error = 'startupParams no disponible';
+      logger.error('❌', error);
+      return { success: false, error };
     }
 
-    return { success: false, error: 'No se recibio authCode', raw: result };
+    logger.info('📊 startupParams:', JSON.stringify(startupParams).substring(0, 300));
+
+    // Buscar authCode en startupParams nivel 1
+    const authFields = ['authCode', 'code', 'authorization', 'token', 'accessToken'];
+    for (const field of authFields) {
+      if ((startupParams as any)[field]) {
+        const value = (startupParams as any)[field];
+        logger.success(`✅ ${field} obtenido`, String(value).substring(0, 100));
+        return { success: true, authCode: String(value), raw: startupParams };
+      }
+    }
+
+    // Buscar en safePayContext (probablemente ahí está)
+    logger.info('🔎 Revisando safePayContext...');
+    const safePayContext = (startupParams as any).safePayContext;
+    if (safePayContext) {
+      logger.info('   📦 safePayContext:', JSON.stringify(safePayContext).substring(0, 200));
+      
+      // Si es string, parsearlo
+      let contextObj = safePayContext;
+      if (typeof safePayContext === 'string') {
+        try {
+          contextObj = JSON.parse(safePayContext);
+          logger.info('   ✅ safePayContext parseado');
+        } catch (e) {
+          logger.warning('   ⚠️ safePayContext no es JSON válido');
+        }
+      }
+      
+      // Buscar authCode en safePayContext
+      if (typeof contextObj === 'object') {
+        for (const field of authFields) {
+          if ((contextObj as any)[field]) {
+            const value = (contextObj as any)[field];
+            logger.success(`✅ ${field} encontrado en safePayContext`, String(value).substring(0, 100));
+            return { success: true, authCode: String(value), raw: contextObj };
+          }
+        }
+        
+        logger.info('   Claves en safePayContext:', Object.keys(contextObj).join(', '));
+      }
+    }
+
+    // Si no hay authCode, error
+    logger.error('❌ authCode no encontrado en startupParams');
+    
+    return { 
+      success: false, 
+      error: 'authCode no disponible en startupParams. No se puede proceder sin autenticación real.'
+    };
+    
   } catch (error) {
-    return { success: false, error: String(error) };
+    const errorMsg = error instanceof Error ? error.message : String(error);
+    logger.error('❌ Exception', errorMsg);
+    return { success: false, error: errorMsg };
   }
 };
 

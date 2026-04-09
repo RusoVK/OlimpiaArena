@@ -1,10 +1,10 @@
 /**
  * COMPONENTE: Catálogo de Items del Mercado
- * Grid de premios disponibles para canjear
+ * Categorías verticales con carrusel horizontal de items
  */
 
 import React, { useState, useEffect } from 'react';
-import { COLORS, TYPOGRAPHY, DESIGN_CONSTANTS } from '@/theme';
+import { COLORS, TYPOGRAPHY } from '@/theme';
 import type { MarketItem } from '@/models/market/types';
 import { getMarketItems } from '@/services/marketAPI';
 import { MarketItemCard } from './MarketItemCard';
@@ -14,12 +14,9 @@ interface MarketCatalogProps {
   selectedItem?: MarketItem;
 }
 
-type CategoryFilter = 'all' | 'badge' | 'cosmetic' | 'power-up' | 'experience' | 'exclusive';
-
 export const MarketCatalog: React.FC<MarketCatalogProps> = ({ onItemSelect, selectedItem }) => {
   const [items, setItems] = useState<MarketItem[]>([]);
   const [loading, setLoading] = useState(true);
-  const [selectedCategory, setSelectedCategory] = useState<CategoryFilter>('all');
 
   useEffect(() => {
     loadItems();
@@ -37,8 +34,7 @@ export const MarketCatalog: React.FC<MarketCatalogProps> = ({ onItemSelect, sele
     }
   };
 
-  const categories: { id: CategoryFilter; label: string; icon: string }[] = [
-    { id: 'all', label: 'Todo', icon: '📦' },
+  const categories = [
     { id: 'badge', label: 'Badges', icon: '🏆' },
     { id: 'cosmetic', label: 'Skins', icon: '🎨' },
     { id: 'power-up', label: 'Power-ups', icon: '⚡' },
@@ -46,104 +42,73 @@ export const MarketCatalog: React.FC<MarketCatalogProps> = ({ onItemSelect, sele
     { id: 'exclusive', label: 'Exclusivas', icon: '👑' },
   ];
 
-  const filteredItems = selectedCategory === 'all' 
-    ? items 
-    : items.filter(item => item.category === selectedCategory);
-
-  const containerStyles: React.CSSProperties = {
-    display: 'flex',
-    flexDirection: 'column',
-    gap: DESIGN_CONSTANTS.spacing.lg,
-  };
-
-  const categoryFilterStyles: React.CSSProperties = {
-    display: 'flex',
-    gap: DESIGN_CONSTANTS.spacing.sm,
-    overflowX: 'auto',
-    paddingBottom: DESIGN_CONSTANTS.spacing.sm,
-    marginBottom: DESIGN_CONSTANTS.spacing.md,
-  };
-
-  const categoryButtonStyles = (isActive: boolean): React.CSSProperties => ({
-    padding: `${DESIGN_CONSTANTS.spacing.sm} ${DESIGN_CONSTANTS.spacing.md}`,
-    borderRadius: DESIGN_CONSTANTS.borderRadius.full,
-    border: isActive
-      ? DESIGN_CONSTANTS.neoBorders.cyanMedium
-      : DESIGN_CONSTANTS.neoBorders.cyanThin,
-    backgroundColor: isActive ? 'rgba(0, 255, 255, 0.1)' : 'transparent',
-    color: isActive ? COLORS.neon.cyan : COLORS.text.secondary,
-    cursor: 'pointer',
-    transition: DESIGN_CONSTANTS.transitions.smooth,
-    fontSize: '12px',
-    fontWeight: 600,
-    textTransform: 'uppercase',
-    letterSpacing: '0.5px',
-    whiteSpace: 'nowrap',
-    boxShadow: isActive ? DESIGN_CONSTANTS.shadows.glowCyanSmall : 'none',
-  });
-
-  const gridStyles: React.CSSProperties = {
-    display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))',
-    gap: DESIGN_CONSTANTS.spacing.md,
-    marginBottom: DESIGN_CONSTANTS.spacing.lg,
-  };
-
-  const emptyStateStyles: React.CSSProperties = {
-    gridColumn: '1 / -1',
-    padding: DESIGN_CONSTANTS.spacing.xl,
-    textAlign: 'center',
-    color: COLORS.text.secondary,
-    ...TYPOGRAPHY.body.md,
-  };
-
-  const loadingStyles: React.CSSProperties = {
-    gridColumn: '1 / -1',
-    padding: DESIGN_CONSTANTS.spacing.xl,
-    textAlign: 'center',
-    animation: 'pulse 2s infinite',
+  const getCategoryItems = (categoryId: string) => {
+    return items.filter(item => item.category === categoryId);
   };
 
   if (loading) {
     return (
-      <div style={containerStyles}>
-        <div style={loadingStyles}>Cargando catálogo...</div>
+      <div style={{ padding: '24px', textAlign: 'center', color: COLORS.text.secondary }}>
+        Cargando mercado...
+      </div>
+    );
+  }
+
+  if (items.length === 0) {
+    return (
+      <div style={{ padding: '24px', textAlign: 'center', color: COLORS.text.secondary }}>
+        No hay items disponibles
       </div>
     );
   }
 
   return (
-    <div style={containerStyles}>
-      {/* Filtro por categoría */}
-      <div style={categoryFilterStyles}>
-        {categories.map(cat => (
-          <button
-            key={cat.id}
-            onClick={() => setSelectedCategory(cat.id)}
-            style={categoryButtonStyles(selectedCategory === cat.id) as any}
-          >
-            <span>{cat.icon}</span> {cat.label}
-          </button>
-        ))}
-      </div>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '32px', paddingBottom: '20px' }}>
+      {categories.map(category => {
+        const categoryItems = getCategoryItems(category.id);
 
-      {/* Grid de items */}
-      <div style={gridStyles}>
-        {filteredItems.length > 0 ? (
-          filteredItems.map(item => (
-            <MarketItemCard
-              key={item.id}
-              item={item}
-              onSelect={onItemSelect}
-              isSelected={selectedItem?.id === item.id}
-            />
-          ))
-        ) : (
-          <div style={emptyStateStyles}>
-            No hay items disponibles en esta categoría
+        if (categoryItems.length === 0) return null;
+
+        return (
+          <div key={category.id} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+            {/* Título de categoría */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', paddingLeft: '16px' }}>
+              <span style={{ fontSize: '24px' }}>{category.icon}</span>
+              <h3
+                style={{
+                  ...TYPOGRAPHY.heading.h4,
+                  color: COLORS.neon.cyan,
+                  margin: 0,
+                  textShadow: `0 0 8px ${COLORS.neon.cyan}`,
+                }}
+              >
+                {category.label}
+              </h3>
+            </div>
+
+            {/* Carrusel de items */}
+            <div
+              style={{
+                display: 'flex',
+                gap: '16px',
+                overflowX: 'auto',
+                paddingLeft: '16px',
+                paddingRight: '16px',
+                paddingBottom: '12px',
+              }}
+            >
+              {categoryItems.map(item => (
+                <MarketItemCard
+                  key={item.id}
+                  item={item}
+                  onSelect={onItemSelect}
+                  isSelected={selectedItem?.id === item.id}
+                />
+              ))}
+            </div>
           </div>
-        )}
-      </div>
+        );
+      })}
     </div>
   );
 };

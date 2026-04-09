@@ -1,0 +1,7 @@
+tunnel: olimpiaarena
+credentials-file: /home/fer/.cloudflared/d96f281c-6938-411c-81c4-045e9ec8a940.json
+
+ingress:
+  - hostname: axol01.com
+    service: http://localhost:5173
+  - service: http_status:404

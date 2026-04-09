@@ -4,7 +4,7 @@
  */
 
 import React from 'react';
-import { COLORS, TYPOGRAPHY, DESIGN_CONSTANTS } from '@/theme';
+import { COLORS, TYPOGRAPHY } from '@/theme';
 import type { MarketItem } from '@/models/market/types';
 
 interface MarketItemCardProps {
@@ -21,53 +21,48 @@ export const MarketItemCard: React.FC<MarketItemCardProps> = ({ item, onSelect, 
     legendary: COLORS.gamification.gold,
   };
 
-  const cardStyles: React.CSSProperties = {
-    padding: DESIGN_CONSTANTS.spacing.sm,
-    borderRadius: DESIGN_CONSTANTS.borderRadius.md,
+  const containerStyles: React.CSSProperties = {
+    minWidth: '280px',
+    padding: '16px',
+    borderRadius: '12px',
     border: isSelected
-      ? `2px solid ${COLORS.neon.cyan}`
-      : DESIGN_CONSTANTS.neoBorders.cyanThin,
-    backgroundColor: COLORS.background.night,
+      ? `1px solid ${COLORS.neon.cyan}`
+      : '1px solid rgba(0, 255, 255, 0.35)',
+    backgroundColor: 'rgba(16, 19, 22, 0.95)',
     cursor: 'pointer',
-    transition: DESIGN_CONSTANTS.transitions.smooth,
+    transition: 'all 150ms ease',
     boxShadow: isSelected
-      ? `0 0 15px rgba(0, 255, 255, 0.5)`
-      : DESIGN_CONSTANTS.shadows.glowCyanSmall,
+      ? `0 0 15px rgba(0, 255, 255, 0.3)`
+      : '0 0 12px rgba(0, 255, 255, 0.12)',
     display: 'flex',
     flexDirection: 'column',
-    gap: DESIGN_CONSTANTS.spacing.xs,
+    gap: '12px',
     opacity: item.active ? 1 : 0.5,
   };
 
-  const iconStyles: React.CSSProperties = {
-    fontSize: '40px',
-    lineHeight: 1,
-    marginBottom: DESIGN_CONSTANTS.spacing.xs,
-  };
-
-  const titleStyles: React.CSSProperties = {
-    ...TYPOGRAPHY.heading.h5,
-    color: COLORS.text.primary,
-    margin: 0,
-  };
-
-  const descriptionStyles: React.CSSProperties = {
-    ...TYPOGRAPHY.body.sm,
-    color: COLORS.text.secondary,
-    minHeight: '40px',
-  };
-
-  const priceContainerStyles: React.CSSProperties = {
+  const headerStyles: React.CSSProperties = {
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginTop: DESIGN_CONSTANTS.spacing.sm,
+    gap: '12px',
   };
 
-  const priceStyles: React.CSSProperties = {
-    ...TYPOGRAPHY.mono.lg,
-    color: COLORS.gamification.gold,
-    textShadow: `0 0 8px ${COLORS.gamification.gold}`,
+  const iconAndNameStyles: React.CSSProperties = {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '12px',
+    flex: 1,
+  };
+
+  const iconStyles: React.CSSProperties = {
+    fontSize: '36px',
+    lineHeight: 1,
+  };
+
+  const titleStyles: React.CSSProperties = {
+    ...TYPOGRAPHY.heading.h4,
+    color: COLORS.text.primary,
+    margin: 0,
   };
 
   const rarityBadgeStyles: React.CSSProperties = {
@@ -76,14 +71,49 @@ export const MarketItemCard: React.FC<MarketItemCardProps> = ({ item, onSelect, 
     textTransform: 'uppercase',
     fontSize: '10px',
     backgroundColor: 'rgba(0, 255, 255, 0.05)',
-    padding: `${DESIGN_CONSTANTS.spacing.xs} ${DESIGN_CONSTANTS.spacing.sm}`,
-    borderRadius: DESIGN_CONSTANTS.borderRadius.full,
+    padding: '2px 8px',
+    borderRadius: '999px',
     border: `1px solid ${rarityColors[item.rarity] || COLORS.text.secondary}`,
+    whiteSpace: 'nowrap',
+  };
+
+  const descriptionStyles: React.CSSProperties = {
+    ...TYPOGRAPHY.body.sm,
+    color: COLORS.text.secondary,
+    margin: 0,
+  };
+
+  const footerStyles: React.CSSProperties = {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    gap: '12px',
+    marginTop: '8px',
+  };
+
+  const priceStyles: React.CSSProperties = {
+    ...TYPOGRAPHY.mono.lg,
+    color: COLORS.gamification.gold,
+    textShadow: `0 0 8px ${COLORS.gamification.gold}`,
+  };
+
+  const buttonStyles: React.CSSProperties = {
+    backgroundColor: COLORS.neon.cyan,
+    color: COLORS.background.abyss,
+    border: 'none',
+    borderRadius: '6px',
+    padding: '10px 16px',
+    fontWeight: 700,
+    cursor: 'pointer',
+    transition: 'all 150ms ease',
+    fontSize: '12px',
+    textTransform: 'uppercase',
+    letterSpacing: '0.5px',
   };
 
   return (
     <div
-      style={cardStyles}
+      style={containerStyles}
       onClick={() => onSelect(item)}
       onKeyDown={(e) => {
         if (e.key === 'Enter' || e.key === ' ') {
@@ -93,25 +123,31 @@ export const MarketItemCard: React.FC<MarketItemCardProps> = ({ item, onSelect, 
       role="button"
       tabIndex={0}
     >
-      <div style={iconStyles}>{item.icon}</div>
-      <h6 style={titleStyles}>{item.name}</h6>
-      <p style={descriptionStyles}>{item.description}</p>
-
-      <div style={priceContainerStyles}>
-        <div>
-          <span style={priceStyles}>{item.price.toLocaleString()}</span>
-          <span style={{ ...TYPOGRAPHY.label.sm, color: COLORS.text.secondary, marginLeft: '4px' }}>
-            Ⓜ️
-          </span>
+      {/* Header: Icon + Name + Badge */}
+      <div style={headerStyles}>
+        <div style={iconAndNameStyles}>
+          <div style={iconStyles}>{item.icon}</div>
+          <h3 style={titleStyles}>{item.name}</h3>
         </div>
-        <div style={rarityBadgeStyles}>{item.rarity}</div>
+        <span style={rarityBadgeStyles}>{item.rarity}</span>
       </div>
 
-      {item.quantity && (
-        <div style={{ ...TYPOGRAPHY.body.xs, color: COLORS.neon.teal, marginTop: DESIGN_CONSTANTS.spacing.xs }}>
-          Limitados: {item.quantity}
-        </div>
-      )}
+      {/* Description */}
+      <p style={descriptionStyles}>{item.description}</p>
+
+      {/* Footer: Price + Button */}
+      <div style={footerStyles}>
+        <span style={priceStyles}>{item.price} Ⓜ️</span>
+        <button
+          style={buttonStyles}
+          onClick={(e) => {
+            e.stopPropagation();
+            onSelect(item);
+          }}
+        >
+          Canjear
+        </button>
+      </div>
     </div>
   );
 };

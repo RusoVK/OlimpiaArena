@@ -1,0 +1,13 @@
+.view-title {
+  width: 100%;
+}
+
+.view-title h1 {
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.view-title p {
+  font-weight: 400;
+  opacity: 0.8;
+}

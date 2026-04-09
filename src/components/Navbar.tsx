@@ -5,9 +5,9 @@
 
 import React from 'react';
 import { COLORS, TYPOGRAPHY, DESIGN_CONSTANTS } from '@/theme';
-import { ArenaIcon, ProfileIcon, MarketIcon, RankingIcon } from './icons/NeonIcons';
+import { ArenaIcon, ProfileIcon, MarketIcon, ArcadeIcon } from './icons/NeonIcons';
 
-export type NavSection = 'arena' | 'profile' | 'market' | 'ranking';
+export type NavSection = 'arena' | 'profile' | 'market' | 'arcade';
 
 interface NavbarProps {
   activeSection: NavSection;
@@ -17,9 +17,9 @@ interface NavbarProps {
 export const Navbar: React.FC<NavbarProps> = ({ activeSection, onNavigate }) => {
   const navItems: Array<{ id: NavSection; label: string; icon: React.ComponentType<any> }> = [
     { id: 'arena', label: 'Arena', icon: ArenaIcon },
+    { id: 'arcade', label: 'Arcade', icon: ArcadeIcon },
     { id: 'profile', label: 'Perfil', icon: ProfileIcon },
-    { id: 'market', label: 'Mercado', icon: MarketIcon },
-    { id: 'ranking', label: 'Ranking', icon: RankingIcon },
+    { id: 'market', label: 'Tienda', icon: MarketIcon },
   ];
 
   const navbarStyles: React.CSSProperties = {

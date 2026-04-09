@@ -1,0 +1,19 @@
+.arcade-map-header {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 20px 16px;
+  border-bottom: 1px solid rgba(0, 255, 255, 0.1);
+}
+
+.arcade-map-header__stats {
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.arcade-map-header__stat {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}

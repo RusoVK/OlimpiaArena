@@ -1,0 +1,18 @@
+.arcade-play-stats {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(0, 255, 255, 0.35);
+  background-color: rgba(16, 19, 22, 0.95);
+  box-shadow: 0 0 12px rgba(0, 255, 255, 0.12);
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.arcade-play-stats__stat {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}

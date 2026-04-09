@@ -10,14 +10,20 @@ import { getUser, getMarketItems } from '@/services/marketAPI';
 import { MarketItemCard } from '@/components/market/MarketItemCard';
 import { ChanjeModal } from '@/components/market/ChanjeModal';
 import { TransactionHistory } from '@/components/market/TransactionHistory';
+import { TokaShop } from '@/components/market/TokaShop';
+import { TokaPaymentModal } from '@/components/market/TokaPaymentModal';
+import { useAlipayAuth } from '@/controllers/useAlipayAuth';
+import type { TokaPackage } from '@/models/market/tokaPay-types';
 
 export const MarketView: React.FC = () => {
   const [user, setUser] = useState<MarketUser | null>(null);
   const [items, setItems] = useState<MarketItem[]>([]);
   const [selectedItem, setSelectedItem] = useState<MarketItem | null>(null);
+  const [selectedTokaPackage, setSelectedTokaPackage] = useState<TokaPackage | null>(null);
   const [loading, setLoading] = useState(true);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const alipayAuth = useAlipayAuth();
 
   useEffect(() => {
     const loadData = async () => {
@@ -58,6 +64,21 @@ export const MarketView: React.FC = () => {
     };
     loadUser();
     setSelectedItem(null);
+  };
+
+  const handleTokaPackageSelect = (pkg: TokaPackage) => {
+    setSelectedTokaPackage(pkg);
+  };
+
+  const handleTokaPaymentSuccess = (coinsReceived: number) => {
+    if (user) {
+      setUser({
+        ...user,
+        tokaCoins: user.tokaCoins + coinsReceived,
+      });
+      setSuccessMessage(`¡Has recibido ${coinsReceived} TokaCoins!`);
+    }
+    setSelectedTokaPackage(null);
   };
 
   // Agrupar items por categoría
@@ -138,7 +159,7 @@ export const MarketView: React.FC = () => {
   };
 
   const walletBalanceStyles: React.CSSProperties = {
-    ...TYPOGRAPHY.mono.xl,
+    ...TYPOGRAPHY.mono.lg,
     color: COLORS.neon.cyan,
     textShadow: `0 0 10px ${COLORS.neon.cyan}`,
     fontWeight: 700,
@@ -266,6 +287,26 @@ export const MarketView: React.FC = () => {
           </div>
         )}
 
+        {/* Sistema de TokaCoins */}
+        <TokaShop
+          session={alipayAuth.session}
+          onPurchaseStart={(pkg) => {
+            if (!alipayAuth.session) {
+              alipayAuth.login().then((success) => {
+                if (success) {
+                  setSelectedTokaPackage(pkg);
+                }
+              }).catch(() => {
+                setErrorMessage('Error iniciando sesión con Alipay');
+              });
+            } else {
+              handleTokaPackageSelect(pkg);
+            }
+          }}
+          onPurchaseSuccess={handleTokaPaymentSuccess}
+          onPurchaseError={setErrorMessage}
+        />
+
         {/* Dos Columnas: Cosméticos + Potenciadores */}
         <div style={twoColumnsStyles}>
           {/* Cosméticos */}
@@ -330,6 +371,17 @@ export const MarketView: React.FC = () => {
             handleChanjeSuccess();
           }}
           onError={setErrorMessage}
+        />
+      )}
+
+      {/* Modal de Pago de TokaCoins */}
+      {selectedTokaPackage && alipayAuth.session && (
+        <TokaPaymentModal
+          package={selectedTokaPackage}
+          session={alipayAuth.session}
+          onSuccess={handleTokaPaymentSuccess}
+          onError={setErrorMessage}
+          onCancel={() => setSelectedTokaPackage(null)}
         />
       )}
     </div>

@@ -92,10 +92,16 @@ export function RubikView({
   onMouseMove,
   onMouseUp,
   onWheel,
+  onTouchStart,
+  onTouchMove,
+  onTouchEnd,
   onMove,
   onShuffle,
   onReset,
-}: RubikViewModel) {
+  onCubeSolved,
+  isMoveDisabled = false,
+  showUtilityButtons = true,
+}: RubikViewModel & { isMoveDisabled?: boolean; showUtilityButtons?: boolean }) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const rendererRef = useRef<THREE.WebGLRenderer | null>(null)
   const cameraRef = useRef<THREE.PerspectiveCamera | null>(null)
@@ -107,6 +113,9 @@ export function RubikView({
   const activeRotationRef = useRef<ActiveLayerRotation | null>(null)
   const actionBatchIdRef = useRef(0)
   const frameRef = useRef<number | null>(null)
+  const isCubeSolvedRef = useRef(false)
+  const scrambleAppliedRef = useRef(false)
+  const completedMovesAfterResetRef = useRef(0)
 
   const moveButtons = useMemo<RubikMove[]>(
     () => ['R', "R'", 'L', "L'", 'U', "U'", 'D', "D'", 'F', "F'", 'B', "B'"],
@@ -244,6 +253,25 @@ export function RubikView({
         cubie.rotation.set(0, 0, 0)
         cubie.position.set(x * LAYER_GAP, y * LAYER_GAP, z * LAYER_GAP)
       })
+
+      isCubeSolvedRef.current = false
+      scrambleAppliedRef.current = false
+      completedMovesAfterResetRef.current = 0
+    }
+
+    const checkCubeSolved = (): boolean => {
+      return cubiesRef.current.every((cubie) => {
+        const current = getCoord(cubie)
+        const home = getHomeCoord(cubie)
+        return (
+          current.x === home.x &&
+          current.y === home.y &&
+          current.z === home.z &&
+          Math.abs(cubie.rotation.x) < 0.01 &&
+          Math.abs(cubie.rotation.y) < 0.01 &&
+          Math.abs(cubie.rotation.z) < 0.01
+        )
+      })
     }
 
     const beginLayerRotation = (move: RubikMove) => {
@@ -296,6 +324,7 @@ export function RubikView({
 
       rootRef.current.remove(active.pivot)
       activeRotationRef.current = null
+      completedMovesAfterResetRef.current++
     }
 
     const animate = () => {
@@ -326,6 +355,24 @@ export function RubikView({
           resetCube()
         } else if (next) {
           beginLayerRotation(next)
+        }
+      } else if (!scrambleAppliedRef.current && completedMovesAfterResetRef.current > 0) {
+        // Cola vacía y hemos ejecutado al menos un move después del reset
+        scrambleAppliedRef.current = true
+      }
+
+      // Check if cube is solved ONLY after scramble has been applied
+      if (
+        scrambleAppliedRef.current &&
+        !isCubeSolvedRef.current &&
+        !activeRotationRef.current &&
+        actionQueueRef.current.length === 0
+      ) {
+        if (checkCubeSolved()) {
+          isCubeSolvedRef.current = true
+          if (onCubeSolved) {
+            onCubeSolved()
+          }
         }
       }
 
@@ -377,13 +424,18 @@ export function RubikView({
         onMouseUp={onMouseUp}
         onMouseLeave={onMouseUp}
         onWheel={onWheel}
+        onTouchStart={onTouchStart}
+        onTouchMove={onTouchMove}
+        onTouchEnd={onTouchEnd}
         style={{
           flex: 1,
           minHeight: 0,
           cursor: 'grab',
           display: 'block',
+          touchAction: 'none',
         }}
       />
+      {showUtilityButtons && (
       <div
         style={{
           padding: '12px 14px',
@@ -395,12 +447,15 @@ export function RubikView({
           gap: '8px',
           alignItems: 'center',
           justifyContent: 'center',
+          opacity: isMoveDisabled ? 0.5 : 1,
+          transition: 'opacity 0.3s ease',
         }}
       >
         {moveButtons.map((move) => (
           <button
             key={move}
-            onClick={() => onMove(move)}
+            onClick={() => !isMoveDisabled && onMove(move)}
+            disabled={isMoveDisabled}
             style={{
               padding: '7px 10px',
               borderRadius: '6px',
@@ -408,7 +463,8 @@ export function RubikView({
               background: '#273247',
               color: '#ecf2ff',
               fontFamily: 'ui-monospace, SFMono-Regular, Menlo, monospace',
-              cursor: 'pointer',
+              cursor: isMoveDisabled ? 'not-allowed' : 'pointer',
+              opacity: isMoveDisabled ? 0.5 : 1,
             }}
           >
             {move}
@@ -416,13 +472,15 @@ export function RubikView({
         ))}
         <button
           onClick={onShuffle}
+          disabled={isMoveDisabled}
           style={{
             padding: '7px 12px',
             borderRadius: '6px',
             border: '1px solid #4d5a73',
             background: '#304f31',
             color: '#f0ffef',
-            cursor: 'pointer',
+            cursor: isMoveDisabled ? 'not-allowed' : 'pointer',
+            opacity: isMoveDisabled ? 0.5 : 1,
           }}
         >
           Shuffle
@@ -442,6 +500,7 @@ export function RubikView({
         </button>
         <span style={{ fontSize: '12px', opacity: 0.85 }}>Arrastra para orbitar, scroll para zoom, botones para girar capas</span>
       </div>
+      )}
     </div>
   )
 }
