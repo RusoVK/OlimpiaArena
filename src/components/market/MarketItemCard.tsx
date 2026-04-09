@@ -22,7 +22,7 @@ export const MarketItemCard: React.FC<MarketItemCardProps> = ({ item, onSelect, 
   };
 
   const cardStyles: React.CSSProperties = {
-    padding: DESIGN_CONSTANTS.spacing.sm,
+    padding: DESIGN_CONSTANTS.spacing.md,
     borderRadius: DESIGN_CONSTANTS.borderRadius.md,
     border: isSelected
       ? `2px solid ${COLORS.neon.cyan}`

@@ -1,0 +1,1 @@
+export { RubikControlPanel } from './RubikControlPanel';

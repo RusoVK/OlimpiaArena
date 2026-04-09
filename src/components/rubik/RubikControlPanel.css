@@ -1,0 +1,71 @@
+.rubik-control-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 16px;
+  background-color: rgba(10, 14, 39, 0.6);
+  border-radius: 12px;
+  border: 1px solid rgba(0, 255, 255, 0.2);
+}
+
+.rubik-control-panel.is-disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.rubik-moves-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(50px, 1fr));
+  gap: 8px;
+}
+
+.rubik-move-button {
+  padding: 10px 12px;
+  background-color: #00ffff;
+  color: #0a0e27;
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  font-family: 'Courier New', monospace;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 0 8px rgba(0, 255, 255, 0.3);
+}
+
+.rubik-move-button:hover:not(:disabled) {
+  box-shadow: 0 0 16px rgba(0, 255, 255, 0.6);
+  transform: scale(1.05);
+}
+
+.rubik-move-button:disabled {
+  background-color: rgba(0, 255, 255, 0.3);
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.rubik-utility-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.rubik-utility-button {
+  flex: 1;
+  padding: 12px 16px;
+  background-color: rgba(0, 255, 255, 0.1);
+  color: #00ffff;
+  border: 1px solid #00ffff;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.rubik-utility-button:hover:not(:disabled) {
+  background-color: #00ffff;
+  color: #0a0e27;
+}
+
+.rubik-utility-button:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}

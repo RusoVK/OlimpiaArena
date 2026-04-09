@@ -56,6 +56,39 @@
       "active": true
     },
     {
+      "id": "arcade_hint_basic",
+      "name": "Pista Arcade",
+      "description": "Sugerencia clave para el nivel actual",
+      "price": 220,
+      "category": "power-up",
+      "categoryLabel": "POTENCIADORES DE ARENA",
+      "icon": "💡",
+      "rarity": "common",
+      "active": true
+    },
+    {
+      "id": "arcade_hint_plus",
+      "name": "Consejo Pro",
+      "description": "Guia avanzada con 2 pasos optimos",
+      "price": 420,
+      "category": "power-up",
+      "categoryLabel": "POTENCIADORES DE ARENA",
+      "icon": "🧠",
+      "rarity": "rare",
+      "active": true
+    },
+    {
+      "id": "arcade_coach_flash",
+      "name": "Ayuda Instantanea",
+      "description": "Solucion parcial en pantalla por 10s",
+      "price": 780,
+      "category": "power-up",
+      "categoryLabel": "POTENCIADORES DE ARENA",
+      "icon": "⚡",
+      "rarity": "epic",
+      "active": true
+    },
+    {
       "id": "physical_olimpia_tshirt",
       "name": "Camiseta OlimpiaArena",
       "description": "Camiseta oficial con escudo de Olimpia Arena",

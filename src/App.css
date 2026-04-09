@@ -20,7 +20,7 @@ body {
 
 /* Estilos para asegurar que el navbar no oculte contenido */
 main, div[role='main'] {
-  padding-bottom: 80px;
+  padding-bottom: 104px;
 }
 
 /* Animaciones de transición entre vistas */
@@ -38,7 +38,7 @@ main, div[role='main'] {
 /* Responsive para pantallas muy pequeñas */
 @media (max-width: 480px) {
   #root {
-    font-size: 14px;
+    font-size: 16px;
   }
 }
 

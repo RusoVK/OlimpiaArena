@@ -1,0 +1,36 @@
+.alipay-button {
+  padding: 10px 16px;
+  border-radius: 8px;
+  border: none;
+  background-color: #00ffff;
+  color: #0a0e27;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 0 12px rgba(0, 255, 255, 0.3);
+  margin-top: 16px;
+  transition: all 0.2s ease;
+}
+
+.alipay-button:hover:not(:disabled) {
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
+}
+
+.alipay-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.alipay-result {
+  margin-top: 12px;
+  padding: 12px;
+  background-color: rgba(0, 255, 255, 0.05);
+  border-radius: 4px;
+  font-size: 12px;
+  word-break: break-all;
+}
+
+.alipay-error {
+  margin-top: 12px;
+  color: #ff6b35;
+  font-size: 12px;
+}

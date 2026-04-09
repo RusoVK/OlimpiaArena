@@ -1,0 +1,32 @@
+.arcade-shop-panel {
+  border-radius: 16px;
+  border: 2px solid rgba(0, 255, 255, 0.5);
+  padding: 20px;
+  background: linear-gradient(135deg, rgba(0, 255, 255, 0.08) 0%, rgba(16, 19, 22, 0.95) 70%);
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.25);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.arcade-shop-panel__header {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.arcade-shop-panel__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+}
+
+.arcade-shop-panel__card {
+  border-radius: 12px;
+  border: 1px solid rgba(0, 255, 255, 0.35);
+  background-color: rgba(16, 19, 22, 0.95);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}

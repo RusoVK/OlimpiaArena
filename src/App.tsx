@@ -2,8 +2,7 @@ import { useState } from 'react'
 import { Navbar, type NavSection } from './components/Navbar'
 import { ArenaView } from './views/ArenaView'
 import { ProfileView } from './views/ProfileView'
-import { MarketView } from './views/MarketView'
-import { RankingView } from './views/RankingView'
+import { ArcadeView } from './views/ArcadeView'
 import { COLORS } from './theme'
 import './App.css'
 
@@ -16,10 +15,8 @@ function App() {
         return <ArenaView />
       case 'profile':
         return <ProfileView />
-      case 'market':
-        return <MarketView />
-      case 'ranking':
-        return <RankingView />
+      case 'arcade':
+        return <ArcadeView />
       default:
         return <ArenaView />
     }

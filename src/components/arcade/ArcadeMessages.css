@@ -1,0 +1,14 @@
+.arcade-message {
+  animation: slideInDown 300ms ease-out;
+}
+
+@keyframes slideInDown {
+  from {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}

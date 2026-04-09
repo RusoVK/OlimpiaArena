@@ -5,9 +5,9 @@
 
 import React from 'react';
 import { COLORS, TYPOGRAPHY, DESIGN_CONSTANTS } from '@/theme';
-import { ArenaIcon, ProfileIcon, MarketIcon, RankingIcon } from './icons/NeonIcons';
+import { ArenaIcon, ProfileIcon, ArcadeIcon } from './icons/NeonIcons';
 
-export type NavSection = 'arena' | 'profile' | 'market' | 'ranking';
+export type NavSection = 'arena' | 'arcade' | 'profile';
 
 interface NavbarProps {
   activeSection: NavSection;
@@ -17,9 +17,8 @@ interface NavbarProps {
 export const Navbar: React.FC<NavbarProps> = ({ activeSection, onNavigate }) => {
   const navItems: Array<{ id: NavSection; label: string; icon: React.ComponentType<any> }> = [
     { id: 'arena', label: 'Arena', icon: ArenaIcon },
+    { id: 'arcade', label: 'Arcade', icon: ArcadeIcon },
     { id: 'profile', label: 'Perfil', icon: ProfileIcon },
-    { id: 'market', label: 'Mercado', icon: MarketIcon },
-    { id: 'ranking', label: 'Ranking', icon: RankingIcon },
   ];
 
   const navbarStyles: React.CSSProperties = {
@@ -27,7 +26,7 @@ export const Navbar: React.FC<NavbarProps> = ({ activeSection, onNavigate }) => 
     bottom: 0,
     left: 0,
     right: 0,
-    height: '80px',
+    height: '104px',
     backgroundColor: COLORS.background.night,
     borderTop: DESIGN_CONSTANTS.neoBorders.cyanThin,
     boxShadow: DESIGN_CONSTANTS.shadows.glowCyanSmall,
@@ -36,7 +35,7 @@ export const Navbar: React.FC<NavbarProps> = ({ activeSection, onNavigate }) => 
     alignItems: 'center',
     zIndex: DESIGN_CONSTANTS.zIndex.sticky,
     backdropFilter: 'blur(10px)',
-    background: `linear-gradient(180deg, rgba(30, 41, 59, 0.95) 0%, rgba(15, 23, 42, 0.98) 100%)`,
+    background: `linear-gradient(180deg, rgba(23, 27, 33, 0.95) 0%, rgba(16, 19, 22, 0.98) 100%)`,
   };
 
   const navItemStyles = (isActive: boolean): React.CSSProperties => ({
@@ -44,8 +43,8 @@ export const Navbar: React.FC<NavbarProps> = ({ activeSection, onNavigate }) => 
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
-    gap: DESIGN_CONSTANTS.spacing.xs,
-    padding: `${DESIGN_CONSTANTS.spacing.sm} ${DESIGN_CONSTANTS.spacing.md}`,
+    gap: DESIGN_CONSTANTS.spacing.sm,
+    padding: `${DESIGN_CONSTANTS.spacing.md} ${DESIGN_CONSTANTS.spacing.md}`,
     cursor: 'pointer',
     border: 'none',
     background: 'transparent',
@@ -57,7 +56,7 @@ export const Navbar: React.FC<NavbarProps> = ({ activeSection, onNavigate }) => 
   });
 
   const labelStyles = (isActive: boolean): React.CSSProperties => ({
-    fontSize: '10px',
+    fontSize: '13px',
     fontWeight: 700,
     textTransform: 'uppercase',
     letterSpacing: '0.5px',
@@ -68,9 +67,9 @@ export const Navbar: React.FC<NavbarProps> = ({ activeSection, onNavigate }) => 
 
   const activeIndicatorStyles: React.CSSProperties = {
     position: 'absolute',
-    bottom: '-8px',
-    height: '3px',
-    width: '16px',
+    bottom: '-10px',
+    height: '4px',
+    width: '18px',
     backgroundColor: COLORS.neon.cyan,
     borderRadius: DESIGN_CONSTANTS.borderRadius.full,
     boxShadow: `0 0 8px ${COLORS.neon.cyan}`,
@@ -90,7 +89,7 @@ export const Navbar: React.FC<NavbarProps> = ({ activeSection, onNavigate }) => 
             aria-label={item.label}
             title={item.label}
           >
-            <IconComponent size={28} active={isActive} />
+            <IconComponent size={36} active={isActive} />
             <span style={labelStyles(isActive)}>{item.label}</span>
             {isActive && <div style={activeIndicatorStyles} />}
           </button>

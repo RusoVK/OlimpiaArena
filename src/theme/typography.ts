@@ -13,34 +13,34 @@ export const TYPOGRAPHY = {
   // ============ ESTILOS DE TÍTULOS (Inter - Black / ExtraBold) ============
   heading: {
     h1: {
-      fontSize: '32px',
+      fontSize: '36px',
       fontWeight: 800,
       fontFamily: "'Inter', sans-serif",
       lineHeight: '1.2',
       letterSpacing: '-0.5px',
     },
     h2: {
-      fontSize: '28px',
+      fontSize: '30px',
       fontWeight: 800,
       fontFamily: "'Inter', sans-serif",
       lineHeight: '1.3',
       letterSpacing: '-0.3px',
     },
     h3: {
-      fontSize: '24px',
+      fontSize: '26px',
       fontWeight: 700,
       fontFamily: "'Inter', sans-serif",
       lineHeight: '1.4',
       letterSpacing: '-0.2px',
     },
     h4: {
-      fontSize: '20px',
+      fontSize: '22px',
       fontWeight: 700,
       fontFamily: "'Inter', sans-serif",
       lineHeight: '1.5',
     },
     h5: {
-      fontSize: '18px',
+      fontSize: '20px',
       fontWeight: 600,
       fontFamily: "'Inter', sans-serif",
       lineHeight: '1.5',
@@ -50,25 +50,25 @@ export const TYPOGRAPHY = {
   // ============ ESTILOS DE CUERPO (Inter - Semibold / Medium) ============
   body: {
     lg: {
-      fontSize: '16px',
+      fontSize: '18px',
       fontWeight: 500,
       fontFamily: "'Inter', sans-serif",
       lineHeight: '1.6',
     },
     md: {
-      fontSize: '14px',
+      fontSize: '16px',
       fontWeight: 500,
       fontFamily: "'Inter', sans-serif",
       lineHeight: '1.6',
     },
     sm: {
-      fontSize: '12px',
+      fontSize: '14px',
       fontWeight: 500,
       fontFamily: "'Inter', sans-serif",
       lineHeight: '1.5',
     },
     xs: {
-      fontSize: '11px',
+      fontSize: '12px',
       fontWeight: 500,
       fontFamily: "'Inter', sans-serif",
       lineHeight: '1.4',
@@ -78,28 +78,28 @@ export const TYPOGRAPHY = {
   // ============ ESTILOS DE DATOS COMPETITIVOS (JetBrains Mono) ============
   mono: {
     lg: {
-      fontSize: '16px',
+      fontSize: '18px',
       fontWeight: 600,
       fontFamily: "'JetBrains Mono', monospace",
       lineHeight: '1.6',
       letterSpacing: '0.5px',
     },
     md: {
-      fontSize: '14px',
+      fontSize: '16px',
       fontWeight: 600,
       fontFamily: "'JetBrains Mono', monospace",
       lineHeight: '1.6',
       letterSpacing: '0.3px',
     },
     sm: {
-      fontSize: '12px',
+      fontSize: '14px',
       fontWeight: 600,
       fontFamily: "'JetBrains Mono', monospace",
       lineHeight: '1.5',
       letterSpacing: '0.2px',
     },
     xs: {
-      fontSize: '10px',
+      fontSize: '12px',
       fontWeight: 600,
       fontFamily: "'JetBrains Mono', monospace",
       lineHeight: '1.4',
@@ -110,7 +110,7 @@ export const TYPOGRAPHY = {
   // ============ ESTILOS DE ETIQUETAS Y BADGES ============
   label: {
     lg: {
-      fontSize: '14px',
+      fontSize: '16px',
       fontWeight: 600,
       fontFamily: "'Inter', sans-serif",
       lineHeight: '1.4',
@@ -118,7 +118,7 @@ export const TYPOGRAPHY = {
       letterSpacing: '1px',
     },
     md: {
-      fontSize: '12px',
+      fontSize: '14px',
       fontWeight: 600,
       fontFamily: "'Inter', sans-serif",
       lineHeight: '1.4',
@@ -126,7 +126,7 @@ export const TYPOGRAPHY = {
       letterSpacing: '0.8px',
     },
     sm: {
-      fontSize: '10px',
+      fontSize: '12px',
       fontWeight: 700,
       fontFamily: "'Inter', sans-serif",
       lineHeight: '1.3',
@@ -138,14 +138,14 @@ export const TYPOGRAPHY = {
   // ============ CRONÓMETRO PRINCIPAL (JetBrains Mono Giant) ============
   timer: {
     main: {
-      fontSize: '48px',
+      fontSize: '56px',
       fontWeight: 700,
       fontFamily: "'JetBrains Mono', monospace",
       lineHeight: '1.2',
       letterSpacing: '2px',
     },
     secondary: {
-      fontSize: '32px',
+      fontSize: '36px',
       fontWeight: 700,
       fontFamily: "'JetBrains Mono', monospace",
       lineHeight: '1.2',
@@ -155,7 +155,7 @@ export const TYPOGRAPHY = {
 
   // ============ SLOGAN TÉCNICO ============
   tagline: {
-    fontSize: '11px',
+    fontSize: '12px',
     fontWeight: 500,
     fontFamily: "'JetBrains Mono', monospace",
     lineHeight: '1.4',

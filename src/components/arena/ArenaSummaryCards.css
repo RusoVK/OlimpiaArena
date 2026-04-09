@@ -1,0 +1,30 @@
+.arena-summary-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.arena-summary-card {
+  padding: 16px;
+  border-radius: 8px;
+  background-color: rgba(10, 14, 39, 0.8);
+  border: 1px solid rgba(0, 255, 255, 0.3);
+  box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.5);
+}
+
+.arena-summary-label {
+  font-size: 12px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.6);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 8px;
+}
+
+.arena-summary-value {
+  font-size: 28px;
+  font-weight: 700;
+  color: #00ffff;
+  font-family: 'Courier New', monospace;
+}

@@ -1,0 +1,38 @@
+[
+  {
+    "id": 1,
+    "title": "Inicio Guiado",
+    "difficulty": "easy",
+    "starsRequired": 0,
+    "starsEarned": 2,
+    "maxStars": 3,
+    "unlocked": true,
+    "goal": "Cross + primeras esquinas",
+    "moveLimit": 10,
+    "scramble": ["R", "U"]
+  },
+  {
+    "id": 2,
+    "title": "Ritmo F2L",
+    "difficulty": "medium",
+    "starsRequired": 3,
+    "starsEarned": 1,
+    "maxStars": 3,
+    "unlocked": true,
+    "goal": "Completa F2L en tiempo limitado",
+    "moveLimit": 8,
+    "scramble": ["R", "U", "R'", "U'", "F", "U"]
+  },
+  {
+    "id": 3,
+    "title": "Final Imposible",
+    "difficulty": "hard",
+    "starsRequired": 6,
+    "starsEarned": 0,
+    "maxStars": 3,
+    "unlocked": false,
+    "goal": "OLL + PLL sin errores",
+    "moveLimit": 6,
+    "scramble": ["R", "U", "R'", "U'", "F", "R", "U", "R'", "U'", "F'"]
+  }
+]

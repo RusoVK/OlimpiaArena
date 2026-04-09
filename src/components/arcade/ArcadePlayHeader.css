@@ -1,0 +1,17 @@
+.arcade-play-header {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.arcade-play-header__title-section {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.arcade-play-header__actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}

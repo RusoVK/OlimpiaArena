@@ -156,6 +156,103 @@ export const RankingIcon: React.FC<IconProps> = ({
 };
 
 /**
+ * Icono Rubik - Cubo con divisiones
+ */
+export const RubikIcon: React.FC<IconProps> = ({
+  size = 24,
+  color = COLORS.neon.cyan,
+  active = false,
+}) => {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke={active ? color : COLORS.text.secondary}
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      style={{
+        transition: 'all 150ms ease-in-out',
+        filter: active ? `drop-shadow(0 0 8px ${color})` : 'none',
+      }}
+    >
+      <rect x="4" y="4" width="16" height="16" rx="2" />
+      <path d="M4 9 H20" />
+      <path d="M4 15 H20" />
+      <path d="M9 4 V20" />
+      <path d="M15 4 V20" />
+    </svg>
+  );
+};
+
+/**
+ * Icono Aprendizaje - Libro abierto con lineas neón
+ */
+export const LearningIcon: React.FC<IconProps> = ({
+  size = 24,
+  color = COLORS.neon.cyan,
+  active = false,
+}) => {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke={active ? color : COLORS.text.secondary}
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      style={{
+        transition: 'all 150ms ease-in-out',
+        filter: active ? `drop-shadow(0 0 8px ${color})` : 'none',
+      }}
+    >
+      <path d="M4 5.5 C4 4.1 5.1 3 6.5 3 H12 V20 H6.5 C5.1 20 4 18.9 4 17.5 Z" />
+      <path d="M20 5.5 C20 4.1 18.9 3 17.5 3 H12 V20 H17.5 C18.9 20 20 18.9 20 17.5 Z" />
+      <path d="M8 7 H10" />
+      <path d="M14 7 H16" />
+      <path d="M8 10 H10" />
+      <path d="M14 10 H16" />
+    </svg>
+  );
+};
+
+/**
+ * Icono Arcade - Control retro
+ */
+export const ArcadeIcon: React.FC<IconProps> = ({
+  size = 24,
+  color = COLORS.neon.cyan,
+  active = false,
+}) => {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke={active ? color : COLORS.text.secondary}
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      style={{
+        transition: 'all 150ms ease-in-out',
+        filter: active ? `drop-shadow(0 0 8px ${color})` : 'none',
+      }}
+    >
+      <rect x="4" y="8" width="16" height="8" rx="4" />
+      <path d="M8 12 H11" />
+      <path d="M9.5 10.5 V13.5" />
+      <circle cx="16" cy="11" r="0.9" fill={active ? color : COLORS.text.secondary} />
+      <circle cx="18" cy="13" r="0.9" fill={active ? color : COLORS.text.secondary} />
+    </svg>
+  );
+};
+
+/**
  * Icono Home - Insignia de Olimpia Arena
  */
 export const HomeIcon: React.FC<IconProps> = ({ 

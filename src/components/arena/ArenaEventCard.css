@@ -1,0 +1,62 @@
+.arena-event-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.arena-event-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.9);
+  margin: 0;
+}
+
+.arena-event-status {
+  padding: 4px 10px;
+  border: 1px solid;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+}
+
+.arena-event-meta {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 8px;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 13px;
+  margin-bottom: 16px;
+}
+
+.arena-event-footer {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.arena-event-button {
+  padding: 10px 16px;
+  border-radius: 8px;
+  border: none;
+  background-color: #00ffff;
+  color: #0a0e27;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 0 12px rgba(0, 255, 255, 0.3);
+  transition: all 0.2s ease;
+}
+
+.arena-event-button:hover:not(:disabled) {
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
+}
+
+.arena-event-button:disabled {
+  background-color: rgba(10, 14, 39, 0.8);
+  color: rgba(255, 255, 255, 0.5);
+  cursor: not-allowed;
+  box-shadow: none;
+}

@@ -1,0 +1,19 @@
+.category-section {
+  background-color: rgba(10, 14, 39, 0.8);
+  border: 2px solid #00ffff;
+  border-radius: 12px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.category-section.is-wide {
+  grid-column: 1 / -1;
+}
+
+.category-items {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}

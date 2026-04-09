@@ -7,7 +7,9 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "ngrok": "ngrok http 5173",
+    "tunnel": "cloudflared tunnel --config cloudflare-tunnel.yml run olimpiaarena"
   },
   "dependencies": {
     "@types/three": "^0.183.1",

@@ -4,12 +4,17 @@
  */
 
 import React, { useState, useEffect } from 'react';
-import { COLORS, TYPOGRAPHY, DESIGN_CONSTANTS } from '@/theme';
+import { COLORS, TYPOGRAPHY } from '@/theme';
 import type { MarketItem, MarketUser } from '@/models/market/types';
 import { getUser, getMarketItems } from '@/services/marketAPI';
-import { MarketItemCard } from '@/components/market/MarketItemCard';
-import { ChanjeModal } from '@/components/market/ChanjeModal';
-import { TransactionHistory } from '@/components/market/TransactionHistory';
+import {
+  MarketHeader,
+  WalletPanel,
+  CategorySection,
+  MarketMessages,
+  ChanjeModal,
+  TransactionHistory,
+} from '@/components/market';
 
 export const MarketView: React.FC = () => {
   const [user, setUser] = useState<MarketUser | null>(null);
@@ -65,8 +70,7 @@ export const MarketView: React.FC = () => {
   const potenciadores = items.filter(item => item.categoryLabel === 'POTENCIADORES DE ARENA');
   const fisicas = items.filter(item => item.categoryLabel === 'RECOMPENSAS FÍSICAS');
 
-  // Estilos
-  const containerStyles: React.CSSProperties = {
+  const containerStyle: React.CSSProperties = {
     display: 'flex',
     flexDirection: 'column',
     minHeight: '100vh',
@@ -74,251 +78,66 @@ export const MarketView: React.FC = () => {
     color: COLORS.text.primary,
   };
 
-  const headerStyles: React.CSSProperties = {
-    textAlign: 'center',
-    padding: `${DESIGN_CONSTANTS.spacing.xl} ${DESIGN_CONSTANTS.spacing.md}`,
-    borderBottom: `2px solid ${COLORS.neon.cyan}`,
-    backgroundColor: 'rgba(0, 255, 255, 0.05)',
-    boxShadow: `0 4px 20px rgba(0, 255, 255, 0.2)`,
-  };
-
-  const titleMainStyles: React.CSSProperties = {
-    ...TYPOGRAPHY.heading.h1,
-    color: COLORS.text.primary,
-    margin: 0,
-    marginBottom: DESIGN_CONSTANTS.spacing.xs,
-    letterSpacing: '2px',
-    textShadow: `0 0 10px ${COLORS.neon.cyan}`,
-  };
-
-  const titleSubStyles: React.CSSProperties = {
-    ...TYPOGRAPHY.heading.h4,
-    color: COLORS.neon.cyan,
-    margin: 0,
-    letterSpacing: '1px',
-    fontWeight: 600,
-  };
-
-  const contentStyles: React.CSSProperties = {
+  const contentStyle: React.CSSProperties = {
     flex: 1,
-    padding: DESIGN_CONSTANTS.spacing.lg,
+    padding: '24px 16px 100px',
     overflowY: 'auto',
     display: 'flex',
     flexDirection: 'column',
-    gap: DESIGN_CONSTANTS.spacing.xl,
+    gap: '24px',
   };
 
-  const walletPanelStyles: React.CSSProperties = {
-    backgroundColor: COLORS.background.night,
-    border: `2px solid ${COLORS.neon.cyan}`,
-    borderRadius: DESIGN_CONSTANTS.borderRadius.lg,
-    padding: DESIGN_CONSTANTS.spacing.lg,
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    boxShadow: `0 0 20px rgba(0, 255, 255, 0.3), inset 0 0 20px rgba(0, 255, 255, 0.1)`,
-    animation: 'glowShift 3s ease-in-out infinite',
-  };
-
-  const walletIconStyles: React.CSSProperties = {
-    fontSize: '48px',
-    marginRight: DESIGN_CONSTANTS.spacing.md,
-  };
-
-  const walletInfoStyles: React.CSSProperties = {
-    flex: 1,
-  };
-
-  const walletLabelStyles: React.CSSProperties = {
-    ...TYPOGRAPHY.label.sm,
-    color: COLORS.text.secondary,
-    textTransform: 'uppercase',
-    letterSpacing: '1px',
-    marginBottom: DESIGN_CONSTANTS.spacing.xs,
-  };
-
-  const walletBalanceStyles: React.CSSProperties = {
-    ...TYPOGRAPHY.mono.xl,
-    color: COLORS.neon.cyan,
-    textShadow: `0 0 10px ${COLORS.neon.cyan}`,
-    fontWeight: 700,
-  };
-
-  const twoColumnsStyles: React.CSSProperties = {
+  const twoColumnsStyle: React.CSSProperties = {
     display: 'grid',
     gridTemplateColumns: '1fr 1fr',
-    gap: DESIGN_CONSTANTS.spacing.lg,
+    gap: '24px',
   };
-
-  const categoryPanelStyles: React.CSSProperties = {
-    backgroundColor: COLORS.background.night,
-    border: `2px solid ${COLORS.neon.cyan}`,
-    borderRadius: DESIGN_CONSTANTS.borderRadius.lg,
-    padding: DESIGN_CONSTANTS.spacing.lg,
-    display: 'flex',
-    flexDirection: 'column',
-    gap: DESIGN_CONSTANTS.spacing.md,
-  };
-
-  const categoryTitleStyles: React.CSSProperties = {
-    ...TYPOGRAPHY.heading.h4,
-    color: COLORS.neon.cyan,
-    margin: 0,
-    marginBottom: DESIGN_CONSTANTS.spacing.md,
-    paddingBottom: DESIGN_CONSTANTS.spacing.md,
-    borderBottom: `1px solid ${COLORS.neon.cyan}`,
-    textTransform: 'uppercase',
-    letterSpacing: '1px',
-    fontSize: '12px',
-  };
-
-  const itemsGridStyles: React.CSSProperties = {
-    display: 'flex',
-    flexDirection: 'column',
-    gap: DESIGN_CONSTANTS.spacing.md,
-  };
-
-  const fisicasContainerStyles: React.CSSProperties = {
-    backgroundColor: COLORS.background.night,
-    border: `2px solid ${COLORS.neon.cyan}`,
-    borderRadius: DESIGN_CONSTANTS.borderRadius.lg,
-    padding: DESIGN_CONSTANTS.spacing.lg,
-    display: 'flex',
-    flexDirection: 'column',
-    gap: DESIGN_CONSTANTS.spacing.md,
-  };
-
-  const fisicasTitleStyles: React.CSSProperties = {
-    ...TYPOGRAPHY.heading.h4,
-    color: COLORS.neon.cyan,
-    margin: 0,
-    marginBottom: DESIGN_CONSTANTS.spacing.md,
-    paddingBottom: DESIGN_CONSTANTS.spacing.md,
-    borderBottom: `1px solid ${COLORS.neon.cyan}`,
-    textTransform: 'uppercase',
-    letterSpacing: '1px',
-    fontSize: '12px',
-  };
-
-  const fisicasGridStyles: React.CSSProperties = {
-    display: 'grid',
-    gridTemplateColumns: '1fr 1fr',
-    gap: DESIGN_CONSTANTS.spacing.md,
-  };
-
-  const messageStyles = (type: 'success' | 'error'): React.CSSProperties => ({
-    position: 'fixed',
-    top: DESIGN_CONSTANTS.spacing.lg,
-    right: DESIGN_CONSTANTS.spacing.lg,
-    backgroundColor: type === 'success' ? COLORS.neon.cyan : COLORS.gamification.alertOrange,
-    color: type === 'success' ? COLORS.background.abyss : COLORS.text.primary,
-    padding: `${DESIGN_CONSTANTS.spacing.md} ${DESIGN_CONSTANTS.spacing.lg}`,
-    borderRadius: DESIGN_CONSTANTS.borderRadius.md,
-    zIndex: 1000,
-    animation: 'slideInDown 300ms ease-out',
-    boxShadow: `0 4px 12px rgba(0, 0, 0, 0.3)`,
-  });
 
   if (loading) {
     return (
-      <div style={containerStyles}>
-        <div style={headerStyles}>
-          <h1 style={titleMainStyles}>OLIMPIAARENA</h1>
-          <p style={titleSubStyles}>Cargando mercado...</p>
+      <div style={containerStyle}>
+        <MarketHeader />
+        <div style={{ padding: '24px', color: COLORS.text.secondary }}>
+          Cargando mercado...
         </div>
       </div>
     );
   }
 
   return (
-    <div style={containerStyles}>
-      {/* Mensajes */}
-      {successMessage && (
-        <div style={messageStyles('success')}>
-          ✅ {successMessage}
-        </div>
-      )}
-      {errorMessage && (
-        <div style={messageStyles('error')}>
-          ⚠️ {errorMessage}
-        </div>
-      )}
+    <div style={containerStyle}>
+      <MarketMessages successMessage={successMessage} errorMessage={errorMessage} />
+      <MarketHeader />
 
-      {/* Cabecera */}
-      <div style={headerStyles}>
-        <h1 style={titleMainStyles}>OLIMPIAARENA</h1>
-        <p style={titleSubStyles}>MERCADO DE RECOMPENSAS</p>
-      </div>
+      <div style={contentStyle}>
+        {user && <WalletPanel balance={user.tokaCoins} />}
 
-      {/* Contenido Principal */}
-      <div style={contentStyles}>
-        {/* Panel de Saldo */}
-        {user && (
-          <div style={walletPanelStyles}>
-            <div style={walletIconStyles}>💰</div>
-            <div style={walletInfoStyles}>
-              <div style={walletLabelStyles}>Saldo Disponible</div>
-              <div style={walletBalanceStyles}>
-                {user.tokaCoins.toLocaleString()} TC
-              </div>
-            </div>
-            <div style={{ textAlign: 'right', fontSize: '24px' }}>Ⓜ️</div>
-          </div>
-        )}
-
-        {/* Dos Columnas: Cosméticos + Potenciadores */}
-        <div style={twoColumnsStyles}>
-          {/* Cosméticos */}
-          <div style={categoryPanelStyles}>
-            <h3 style={categoryTitleStyles}>🧠 Cosméticos de Perfil</h3>
-            <div style={itemsGridStyles}>
-              {cosmeticos.map(item => (
-                <MarketItemCard
-                  key={item.id}
-                  item={item}
-                  onSelect={setSelectedItem}
-                  isSelected={selectedItem?.id === item.id}
-                />
-              ))}
-            </div>
-          </div>
-
-          {/* Potenciadores */}
-          <div style={categoryPanelStyles}>
-            <h3 style={categoryTitleStyles}>⚡ Potenciadores de Arena</h3>
-            <div style={itemsGridStyles}>
-              {potenciadores.map(item => (
-                <MarketItemCard
-                  key={item.id}
-                  item={item}
-                  onSelect={setSelectedItem}
-                  isSelected={selectedItem?.id === item.id}
-                />
-              ))}
-            </div>
-          </div>
+        <div style={twoColumnsStyle}>
+          <CategorySection
+            title="🧠 Cosméticos de Perfil"
+            items={cosmeticos}
+            onSelectItem={setSelectedItem}
+            selectedItemId={selectedItem?.id}
+          />
+          <CategorySection
+            title="⚡ Potenciadores de Arena"
+            items={potenciadores}
+            onSelectItem={setSelectedItem}
+            selectedItemId={selectedItem?.id}
+          />
         </div>
 
-        {/* Recompensas Físicas */}
-        <div style={fisicasContainerStyles}>
-          <h3 style={fisicasTitleStyles}>🎁 Recompensas Físicas</h3>
-          <div style={fisicasGridStyles}>
-            {fisicas.map(item => (
-              <MarketItemCard
-                key={item.id}
-                item={item}
-                onSelect={setSelectedItem}
-                isSelected={selectedItem?.id === item.id}
-              />
-            ))}
-          </div>
-        </div>
+        <CategorySection
+          title="🎁 Recompensas Físicas"
+          items={fisicas}
+          onSelectItem={setSelectedItem}
+          selectedItemId={selectedItem?.id}
+          isWide
+        />
 
-        {/* Historial de Transacciones */}
         {user && <TransactionHistory userId={user.id} />}
       </div>
 
-      {/* Modal de Canje */}
       {selectedItem && user && (
         <ChanjeModal
           item={selectedItem}

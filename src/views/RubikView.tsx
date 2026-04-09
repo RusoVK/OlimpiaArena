@@ -1,8 +1,9 @@
-import { useEffect, useMemo, useRef } from 'react'
+import { useEffect, useRef } from 'react'
 import * as THREE from 'three'
 import type { RubikViewModel } from '../controllers/useRubikController'
 import type { RubikCommand, RubikMove } from '../models/rubikModel'
 import { defaultRubikColors } from '../models/rubikModel'
+import { RubikControlPanel } from '@/components/rubik'
 
 type CubieCoord = { x: -1 | 0 | 1; y: -1 | 0 | 1; z: -1 | 0 | 1 }
 type CubieMesh = THREE.Mesh
@@ -85,17 +86,26 @@ function createStickerBorderGeometry(): THREE.BufferGeometry {
   return new THREE.BufferGeometry().setFromPoints(points)
 }
 
+type RubikViewProps = RubikViewModel & {
+  isMoveDisabled?: boolean
+  showUtilityButtons?: boolean
+}
+
 export function RubikView({
   state,
   actionBatch,
   onMouseDown,
   onMouseMove,
   onMouseUp,
-  onWheel,
+  onTouchStart,
+  onTouchMove,
+  onTouchEnd,
   onMove,
   onShuffle,
   onReset,
-}: RubikViewModel) {
+  isMoveDisabled = false,
+  showUtilityButtons = true,
+}: RubikViewProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const rendererRef = useRef<THREE.WebGLRenderer | null>(null)
   const cameraRef = useRef<THREE.PerspectiveCamera | null>(null)
@@ -107,11 +117,6 @@ export function RubikView({
   const activeRotationRef = useRef<ActiveLayerRotation | null>(null)
   const actionBatchIdRef = useRef(0)
   const frameRef = useRef<number | null>(null)
-
-  const moveButtons = useMemo<RubikMove[]>(
-    () => ['R', "R'", 'L', "L'", 'U', "U'", 'D', "D'", 'F', "F'", 'B', "B'"],
-    []
-  )
 
   useEffect(() => {
     stateRef.current = state
@@ -126,7 +131,7 @@ export function RubikView({
     sceneRef.current = scene
 
     const camera = new THREE.PerspectiveCamera(52, canvas.clientWidth / canvas.clientHeight, 0.1, 100)
-    camera.position.set(0, 0, stateRef.current.zoom)
+    camera.position.set(0, 0, 8.5)
     cameraRef.current = camera
 
     const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: false })
@@ -307,7 +312,7 @@ export function RubikView({
       }
 
       if (cameraRef.current) {
-        cameraRef.current.position.z = stateRef.current.zoom
+        cameraRef.current.position.z = 8.5
       }
 
       const active = activeRotationRef.current
@@ -376,71 +381,29 @@ export function RubikView({
         onMouseMove={onMouseMove}
         onMouseUp={onMouseUp}
         onMouseLeave={onMouseUp}
-        onWheel={onWheel}
+        onTouchStart={onTouchStart}
+        onTouchMove={onTouchMove}
+        onTouchEnd={onTouchEnd}
+        onWheel={(e) => e.preventDefault()}
         style={{
           flex: 1,
           minHeight: 0,
           cursor: 'grab',
           display: 'block',
+          touchAction: 'none',
         }}
       />
-      <div
-        style={{
-          padding: '12px 14px',
-          backgroundColor: '#1c2028',
-          color: '#eff3ff',
-          borderTop: '1px solid #2f3746',
-          display: 'flex',
-          flexWrap: 'wrap',
-          gap: '8px',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}
-      >
-        {moveButtons.map((move) => (
-          <button
-            key={move}
-            onClick={() => onMove(move)}
-            style={{
-              padding: '7px 10px',
-              borderRadius: '6px',
-              border: '1px solid #4d5a73',
-              background: '#273247',
-              color: '#ecf2ff',
-              fontFamily: 'ui-monospace, SFMono-Regular, Menlo, monospace',
-              cursor: 'pointer',
-            }}
-          >
-            {move}
-          </button>
-        ))}
-        <button
-          onClick={onShuffle}
-          style={{
-            padding: '7px 12px',
-            borderRadius: '6px',
-            border: '1px solid #4d5a73',
-            background: '#304f31',
-            color: '#f0ffef',
-            cursor: 'pointer',
-          }}
-        >
-          Shuffle
-        </button>
-        <button
-          onClick={onReset}
-          style={{
-            padding: '7px 12px',
-            borderRadius: '6px',
-            border: '1px solid #4d5a73',
-            background: '#4a2b2b',
-            color: '#ffecec',
-            cursor: 'pointer',
-          }}
-        >
-          Reset
-        </button>
-        <span style={{ fontSize: '12px', opacity: 0.85 }}>Arrastra para orbitar, scroll para zoom, botones para girar capas</span>
+      <div style={{ padding: '12px 14px', backgroundColor: '#1c2028', borderTop: '1px solid #2f3746' }}>
+        <RubikControlPanel
+          onMove={onMove}
+          onShuffle={onShuffle}
+          onReset={onReset}
+          isDisabled={isMoveDisabled}
+          showUtilityButtons={showUtilityButtons}
+        />
+        <div style={{ fontSize: '12px', opacity: 0.85, marginTop: '8px', textAlign: 'center', color: '#eff3ff' }}>
+          Arrastra para orbitar, scroll para zoom, botones para girar capas
+        </div>
       </div>
     </div>
   )

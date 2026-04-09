@@ -9,7 +9,11 @@ export type RubikViewModel = {
   onMouseMove: (e: React.MouseEvent<HTMLCanvasElement>) => void
   onMouseUp: () => void
   onWheel: (e: React.WheelEvent<HTMLCanvasElement>) => void
+  onTouchStart: (e: React.TouchEvent<HTMLCanvasElement>) => void
+  onTouchMove: (e: React.TouchEvent<HTMLCanvasElement>) => void
+  onTouchEnd: () => void
   onMove: (move: RubikMove) => void
+  onBatch: (moves: RubikMove[]) => void
   onShuffle: () => void
   onReset: () => void
 }
@@ -57,6 +61,35 @@ export function useRubikController(): RubikViewModel {
     mouseDownRef.current = false
   }
 
+  const onTouchStart = (e: React.TouchEvent<HTMLCanvasElement>) => {
+    if (e.touches.length === 1) {
+      mouseDownRef.current = true
+      mouseStartRef.current = { x: e.touches[0].clientX, y: e.touches[0].clientY }
+      rotationStartRef.current = { x: state.rotationX, y: state.rotationY }
+    } else if (e.touches.length === 2) {
+      // Para zoom con dos dedos en el futuro
+      mouseDownRef.current = false
+    }
+  }
+
+  const onTouchMove = (e: React.TouchEvent<HTMLCanvasElement>) => {
+    if (!mouseDownRef.current || e.touches.length !== 1) return
+    e.preventDefault()
+
+    const deltaX = e.touches[0].clientX - mouseStartRef.current.x
+    const deltaY = e.touches[0].clientY - mouseStartRef.current.y
+
+    setState((prev) => ({
+      ...prev,
+      rotationY: rotationStartRef.current.y + deltaX * 0.008,
+      rotationX: rotationStartRef.current.x + deltaY * 0.008,
+    }))
+  }
+
+  const onTouchEnd = () => {
+    mouseDownRef.current = false
+  }
+
   const onWheel = (e: React.WheelEvent<HTMLCanvasElement>) => {
     e.preventDefault()
     setState((prev) => ({
@@ -67,6 +100,11 @@ export function useRubikController(): RubikViewModel {
 
   const onMove = (move: RubikMove) => {
     dispatchMoves([move])
+  }
+
+  const onBatch = (moves: RubikMove[]) => {
+    if (moves.length === 0) return
+    dispatchMoves(moves)
   }
 
   const onShuffle = () => {
@@ -93,7 +131,11 @@ export function useRubikController(): RubikViewModel {
     onMouseMove,
     onMouseUp,
     onWheel,
+    onTouchStart,
+    onTouchMove,
+    onTouchEnd,
     onMove,
+    onBatch,
     onShuffle,
     onReset,
   }
