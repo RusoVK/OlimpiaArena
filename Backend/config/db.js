@@ -1,13 +1,14 @@
-const admin = require("firebase-admin");
+const { initializeApp, cert } = require("firebase-admin/app");
+const { getFirestore } = require("firebase-admin/firestore");
 
 let db;
 
 try {
   const serviceAccount = require("./serviceAccountKey.json");
-  admin.initializeApp({
-    credential: admin.credential.cert(serviceAccount)
+  const app = initializeApp({
+    credential: cert(serviceAccount)
   });
-  db = admin.firestore();
+  db = getFirestore(app);
   console.log("✓ Firebase conectado");
 } catch (error) {
   console.warn("⚠ Firebase no disponible, usando mock", error.message);
